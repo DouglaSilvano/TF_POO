@@ -1,8 +1,6 @@
 package interfaceGrafica;
 
-import entities.CatalogoCompradores;
-import entities.CatalogoFornecedores;
-import entities.CatalogoTecnologias;
+import entities.*;
 
 import javax.swing.*;
 
@@ -16,6 +14,7 @@ public class PainelPrincipal {
     private JButton botaoRelatorioTec;
     private JButton botaoRelatorioCom;
     private JButton botaoRelatorioVen;
+    private JButton botaoDadosAutomatico;
     CatalogoFornecedores catalogoFor = new CatalogoFornecedores();
     CatalogoTecnologias catalogoTec = new CatalogoTecnologias();
     CatalogoCompradores catalogoCom = new CatalogoCompradores();
@@ -30,6 +29,7 @@ public class PainelPrincipal {
         botaoRelatorioFor.addActionListener(e -> abrirRelatorioFor());
 //        botaoRelatorioTec.addActionListener(e -> abrirRelatorioTec());
 //        botaoRelatorioCom.addActionListener(e -> abrirRelatorioCom());
+        botaoDadosAutomatico.addActionListener(e-> adicionarDadosAutomaticamente(catalogoFor,catalogoTec,catalogoCom));
     }
 
     private void abrirTelaFornecedor(CatalogoFornecedores catalogoFor) {
@@ -57,6 +57,81 @@ public class PainelPrincipal {
         f.setContentPane(new TelaRelatorioFor(catalogoFor).getPainel());
         f.pack();
         f.setVisible(true);
+    }
+    private void adicionarDadosAutomaticamente(CatalogoFornecedores catalogoFor,CatalogoTecnologias catalogoTec,CatalogoCompradores catalogoCom){
+        System.out.println("Iniciando carga de dados...");
+        // Utilização da IA para adicionar dados automaticamente
+        // -----------------------------------------
+        // 1. CADASTRO DE FORNECEDORES
+        // -----------------------------------------
+        // O seu metodo requer Strings: (cod, nome, data, area)
+        catalogoFor.cadastrarFornecedor("101", "Cyber Dynamics", "15/05/2010", "TI");
+        catalogoFor.cadastrarFornecedor("102", "Agro Future", "20/08/1995", "ALIMENTOS");
+        catalogoFor.cadastrarFornecedor("103", "RoboCorp Inc", "10/01/2022", "ANDROIDES");
+
+        // Recuperamos os objetos reais para vincular às tecnologias
+        Fornecedor forn1 = catalogoFor.buscarFornecedor(101);
+        Fornecedor forn2 = catalogoFor.buscarFornecedor(102);
+        Fornecedor forn3 = catalogoFor.buscarFornecedor(103);
+
+        // -----------------------------------------
+        // 2. CADASTRO DE TECNOLOGIAS
+        // -----------------------------------------
+        // Construtor: (id, modelo, descricao, peso, valorBase, temperatura, fornecedor)
+
+        if (forn1 != null) {
+            Tecnologia t1 = new Tecnologia(
+                    5001,
+                    "Chip Neural A1",
+                    "Processador de IA avançado",
+                    0.05,
+                    1500.00,
+                    45.5,
+                    forn1
+            );
+            catalogoTec.cadastrarTecnologia(t1);
+        }
+
+        if (forn2 != null) {
+            Tecnologia t2 = new Tecnologia(
+                    5002,
+                    "Drone Semeador X",
+                    "Drone autônomo para plantio",
+                    12.5,
+                    8500.00,
+                    30.0,
+                    forn2
+            );
+            catalogoTec.cadastrarTecnologia(t2);
+        }
+
+        if (forn3 != null) {
+            Tecnologia t3 = new Tecnologia(
+                    5003,
+                    "Braço Mecânico V2",
+                    "Auxiliar de montagem industrial",
+                    80.0,
+                    12000.00,
+                    60.0,
+                    forn3
+            );
+            catalogoTec.cadastrarTecnologia(t3);
+        }
+
+        // -----------------------------------------
+        // 3. CADASTRO DE COMPRADORES
+        // -----------------------------------------
+        // Construtor: (cod, nome, pais, email)
+
+        Comprador comp1 = new Comprador(9001, "Jean Picard", "França", "jean.picard@enterprise.eu");
+        Comprador comp2 = new Comprador(9002, "Sarah Connor", "EUA", "sarah@resistencia.com");
+        Comprador comp3 = new Comprador(9003, "Hans Mueller", "Alemanha", "hans@tech.de");
+
+        catalogoCom.cadastrar(comp1);
+        catalogoCom.cadastrar(comp2);
+        catalogoCom.cadastrar(comp3);
+
+        System.out.println("Carga de dados concluída com sucesso!");
     }
 //    private void abrirRelatorioTec(){
 //        JFrame f = new JFrame("Relatório das tecnologias");
