@@ -91,18 +91,7 @@ public class TelaComprador implements ActionListener {
     }
 
     private void mostrarTodos() {
-        areaMensagens.setText("");
-
-        Collection<Comprador> todos = catalogoCom.getTodosCompradores();
-
-        if (todos.isEmpty()) {
-            areaMensagens.setText("Nenhum comprador cadastrado no sistema.");
-        } else {
-            areaMensagens.setText("--- LISTA DE COMPRADORES (Ordem por Código) ---\n");
-            for (Comprador c : todos) {
-                areaMensagens.append(c.geraDescricao() + "\n");
-            }
-        }
+        areaMensagens.setText(catalogoCom.listarCompradores());
     }
 
     private void limparCampos() {

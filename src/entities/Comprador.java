@@ -6,6 +6,7 @@ public class Comprador extends Participante {
 
     private String pais;
     private String email;
+    private int qtdVendas = 0;
 
     public Comprador(long cod, String nome, String pais, String email) {
         super(cod, nome);
@@ -25,6 +26,9 @@ public class Comprador extends Participante {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+    public int getQtdVendas() {
+        return qtdVendas;
     }
 
     @Override
