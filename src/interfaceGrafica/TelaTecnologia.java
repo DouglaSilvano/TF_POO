@@ -14,7 +14,7 @@ public class TelaTecnologia {
     private JTextArea areaTexto;
     private JButton clearButton;
     private JLabel informacaoNecessaria;
-    private JButton mostrarDadosButton;
+    private JButton mostrarDadosFornecedorButton;
     private JButton finalizarButton;
     private JTextArea textoPos;
     private JTextField textoId;
@@ -25,6 +25,7 @@ public class TelaTecnologia {
     private JTextField textoTemperatura;
     private JLabel Temperatura;
     private JLabel janelaErro;
+    private JTextField textoCodFor;
     //    private static int contadorOkButton = 0; desnecessário já que nao tem mais o switch case
     private static int contadorEstatico = 0;
 //    Tecnologia tecnologia = new Tecnologia(); estava qui antes mas quero mudar de lugar
@@ -34,7 +35,7 @@ public class TelaTecnologia {
     // boolean verificadorContador;
     // boolean erroID = false;
 
-    public TelaTecnologia(CatalogoTecnologias catalogoTec) {
+    public TelaTecnologia(CatalogoTecnologias catalogoTec, CatalogoFornecedores catalogoFor) {
 
 
         informacaoNecessaria.setText("Para inicializar o programa, digite as informações necessárias e clique em OK.");
@@ -52,6 +53,7 @@ public class TelaTecnologia {
                 textoValorBase.setText("");
                 textoPeso.setText("");
                 textoTemperatura.setText("");
+                textoCodFor.setText("");
             }
         });
         okButton.addActionListener(new ActionListener() {
@@ -71,6 +73,8 @@ public class TelaTecnologia {
                 double valorBase;
                 double peso;
                 double temperatura;
+                int codigoFornecedor;
+                Fornecedor f;
                 //-------------
                 String mensagemConfirmacao = "Ação concluída com sucesso!";
                 String mensagemErro = "";
@@ -132,6 +136,23 @@ public class TelaTecnologia {
                     mensagemErro = mensagemErro + "\n" + " / Erro de peso (precisa ser um número válido).";
                     avancarContador = false;
                 }
+                //recebendo codigo do fornecedor
+                novoTexto = textoCodFor.getText().trim();
+                try{
+                    codigoFornecedor = Integer.parseInt(novoTexto);
+                    f = catalogoFor.buscarFornecedor(codigoFornecedor);
+                    if(catalogoFor.buscarFornecedor(codigoFornecedor) == null){
+                        mensagemErro = mensagemErro + "Código de fornecedor não foi cadastrado!";
+                        avancarContador = false;
+                    }
+                    tecnologia.setFornecedor(f);
+                }catch (NumberFormatException x) {
+                    mensagemErro = mensagemErro + "\n" + " / Erro de fornecedor (precisa ser um número válido).";
+                    avancarContador = false;
+                }catch(Exception x){
+                    mensagemErro = mensagemErro + "\n" + " / Erro de fornecedor (código inexistente).";
+                    avancarContador = false;
+                }
 
 
                 // recebendo a TEMPERATURA
@@ -148,6 +169,7 @@ public class TelaTecnologia {
                     textoValorBase.setText("");
                     textoPeso.setText("");
                     textoTemperatura.setText("");
+                    textoCodFor.setText("");
                 } catch (NumberFormatException x) {
                     mensagemErro = mensagemErro + "\n" + " / Erro de temperatura (precisa ser um número válido).";
                     avancarContador = false; // Não avança, tenta de novo
@@ -221,9 +243,9 @@ public class TelaTecnologia {
                 window.dispose();
             }
         });
-        mostrarDadosButton.addActionListener(e -> {
+        mostrarDadosFornecedorButton.addActionListener(e -> {
             textoPos.setText("");
-            textoPos.append(catalogoTec.mostrarDados());
+            textoPos.append(catalogoFor.listarFornecedores());
         });
 
     }

@@ -1,5 +1,6 @@
 package interfaceGrafica;
 
+import entities.CatalogoFornecedores;
 import entities.CatalogoTecnologias;
 
 import javax.swing.*;
@@ -7,9 +8,9 @@ import javax.swing.*;
 public class AplicacaoTecnologia extends JFrame {
     private TelaTecnologia telaTecnologia;
 
-    public AplicacaoTecnologia(CatalogoTecnologias catalogoTec) {
+    public AplicacaoTecnologia(CatalogoTecnologias catalogoTec, CatalogoFornecedores catalogoFor) {
         super();
-        telaTecnologia = new TelaTecnologia(catalogoTec);
+        telaTecnologia = new TelaTecnologia(catalogoTec,catalogoFor);
         add(telaTecnologia.getPainel());
         setSize(800, 400);
         setTitle("Cadastro de Tecnologia");
