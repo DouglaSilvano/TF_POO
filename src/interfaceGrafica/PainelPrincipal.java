@@ -3,6 +3,7 @@ package interfaceGrafica;
 import entities.CatalogoCompradores;
 import entities.CatalogoFornecedores;
 import entities.CatalogoTecnologias;
+import entities.CatalogoVendas;
 
 import javax.swing.*;
 
@@ -16,9 +17,11 @@ public class PainelPrincipal {
     private JButton botaoRelatorioTec;
     private JButton botaoRelatorioCom;
     private JButton botaoRelatorioVen;
+    private JButton botaoAlterarCom;
     CatalogoFornecedores catalogoFor = new CatalogoFornecedores();
     CatalogoTecnologias catalogoTec = new CatalogoTecnologias();
     CatalogoCompradores catalogoCom = new CatalogoCompradores();
+    CatalogoVendas catalogoVen = new CatalogoVendas();
     public JPanel getPainel() {
         return painelMenu;
     }
@@ -28,8 +31,11 @@ public class PainelPrincipal {
         botaoTecnologia.addActionListener(e -> abrirTelaTecnologia(catalogoTec));
         botaoComprador.addActionListener(e -> abrirTelaComprador(catalogoCom));
         botaoRelatorioFor.addActionListener(e -> abrirRelatorioFor());
+        botaoVenda.addActionListener(e -> abrirTelaVenda());
+        botaoRelatorioVen.addActionListener(e -> abrirRelatorioVen());
 //        botaoRelatorioTec.addActionListener(e -> abrirRelatorioTec());
 //        botaoRelatorioCom.addActionListener(e -> abrirRelatorioCom());
+        botaoAlterarCom.addActionListener(e -> abrirTelaAlterarCom(catalogoCom));
     }
 
     private void abrirTelaFornecedor(CatalogoFornecedores catalogoFor) {
@@ -58,6 +64,18 @@ public class PainelPrincipal {
         f.pack();
         f.setVisible(true);
     }
+    private void abrirTelaVenda() {
+        JFrame f = new JFrame("Cadastro de Venda");
+        f.setContentPane(new TelaVenda(catalogoVen, catalogoTec, catalogoCom).getPainel());
+        f.pack();
+        f.setVisible(true);
+    }
+    private void abrirRelatorioVen() {
+        JFrame f = new JFrame("Relatório de Vendas");
+        f.setContentPane(new TelaRelatorioVenda(catalogoVen).getPainel());
+        f.pack();
+        f.setVisible(true);
+    }
 //    private void abrirRelatorioTec(){
 //        JFrame f = new JFrame("Relatório das tecnologias");
 //        f.setContentPane(new TelaRelatorioTec(catalogoTec).getPainel());
@@ -70,5 +88,12 @@ public class PainelPrincipal {
 //        f.pack();
 //        f.setVisible(true);
 //    }
+    private void abrirTelaAlterarCom(CatalogoCompradores catalogoCom) {
+        JFrame f = new JFrame("Alterar dados de comprador");
+        f.setContentPane(new TelaAlterarComprador(catalogoCom).getPainel());
+        f.pack();
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
+    }
 }
 
