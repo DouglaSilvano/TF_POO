@@ -16,6 +16,7 @@ public class PainelPrincipal {
     private JButton botaoRelatorioVen;
     private JButton botaoAlterarCom;
     private JButton easterEggButton;
+    private JButton consultarMaiorButton;
     CatalogoFornecedores catalogoFor = new CatalogoFornecedores();
     CatalogoTecnologias catalogoTec = new CatalogoTecnologias();
     CatalogoCompradores catalogoCom = new CatalogoCompradores();
@@ -34,7 +35,8 @@ public class PainelPrincipal {
         botaoRelatorioTec.addActionListener(e -> abrirRelatorioTec());
         botaoRelatorioCom.addActionListener(e -> abrirRelatorioCom());
         botaoAlterarCom.addActionListener(e -> abrirTelaAlterarCom(catalogoCom));
-        easterEggButton.addActionListener(e -> adicionarDadosAutomaticamente(catalogoFor,catalogoTec,catalogoCom));
+        easterEggButton.addActionListener(e -> adicionarDadosAutomaticamente(catalogoVen,catalogoFor,catalogoTec,catalogoCom));
+        consultarMaiorButton.addActionListener(e -> consultarMaior(catalogoVen,catalogoFor,catalogoCom,catalogoTec));
     }
 
     private void abrirTelaFornecedor(CatalogoFornecedores catalogoFor) {
@@ -94,9 +96,22 @@ public class PainelPrincipal {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-    private void adicionarDadosAutomaticamente(CatalogoFornecedores catalogoFor,CatalogoTecnologias catalogoTec,CatalogoCompradores catalogoCom){
+    private void consultarMaior(CatalogoVendas catalogoVen,
+                              CatalogoFornecedores catalogoFor,
+                                CatalogoCompradores catalogoCom,
+                                CatalogoTecnologias catalogoTec){
+        JFrame f = new JFrame("Consultar maior (...)");
+        f.setContentPane(new ConsultarMaior(catalogoVen,catalogoFor,catalogoTec,catalogoCom).getPainel());
+        f.pack();
+        f.setVisible(true);
+    }
+
+    private void adicionarDadosAutomaticamente(CatalogoVendas catalogoVen,
+                                               CatalogoFornecedores catalogoFor,
+                                               CatalogoTecnologias catalogoTec,
+                                               CatalogoCompradores catalogoCom) {
         System.out.println("Iniciando carga de dados...");
-        // Utilização da IA para adicionar dados automaticamente
+
         // -----------------------------------------
         // 1. CADASTRO DE FORNECEDORES
         // -----------------------------------------
@@ -114,9 +129,12 @@ public class PainelPrincipal {
         // 2. CADASTRO DE TECNOLOGIAS
         // -----------------------------------------
         // Construtor: (id, modelo, descricao, peso, valorBase, temperatura, fornecedor)
+        Tecnologia t1 = null; // Declarando fora do if para uso posterior
+        Tecnologia t2 = null;
+        Tecnologia t3 = null;
 
         if (forn1 != null) {
-            Tecnologia t1 = new Tecnologia(
+            t1 = new Tecnologia(
                     5001,
                     "Chip Neural A1",
                     "Processador de IA avançado",
@@ -129,7 +147,7 @@ public class PainelPrincipal {
         }
 
         if (forn2 != null) {
-            Tecnologia t2 = new Tecnologia(
+            t2 = new Tecnologia(
                     5002,
                     "Drone Semeador X",
                     "Drone autônomo para plantio",
@@ -142,7 +160,7 @@ public class PainelPrincipal {
         }
 
         if (forn3 != null) {
-            Tecnologia t3 = new Tecnologia(
+            t3 = new Tecnologia(
                     5003,
                     "Braço Mecânico V2",
                     "Auxiliar de montagem industrial",
@@ -167,8 +185,33 @@ public class PainelPrincipal {
         catalogoCom.cadastrar(comp2);
         catalogoCom.cadastrar(comp3);
 
-        System.out.println("Carga de dados concluída com sucesso!");
-        // Utilização da IA para adicionar dados automaticamente
+        // -----------------------------------------
+        // 4. CADASTRO DE VENDAS (AS 4 VENDAS SOLICITADAS)
+        // -----------------------------------------
+        // Método: cadastrarVenda(num, data, tec, com)
+        System.out.println("Cadastrando 4 Vendas...");
+
+        // Venda 1: Picard compra Chip Neural
+        if (t1 != null) {
+            catalogoVen.cadastrarVenda("2001", "05/11/2025", t1, comp1);
+        }
+
+        // Venda 2: Connor compra Drone Semeador
+        if (t2 != null) {
+            catalogoVen.cadastrarVenda("2002", "06/11/2025", t2, comp2);
+        }
+
+        // Venda 3: Mueller compra Braço Mecânico
+        if (t3 != null) {
+            catalogoVen.cadastrarVenda("2003", "06/11/2025", t3, comp3);
+        }
+
+        // Venda 4: Picard compra Braço Mecânico (Venda duplicada para um comprador)
+        if (t3 != null) {
+            catalogoVen.cadastrarVenda("2004", "07/11/2025", t3, comp1);
+        }
+
+        System.out.println("Carga de dados concluída com sucesso! (Incluindo 4 Vendas)");
     }
 }
 
