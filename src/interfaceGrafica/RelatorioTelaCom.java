@@ -23,7 +23,7 @@ public class RelatorioTelaCom {
     }
 
     private void mostrarDados(CatalogoCompradores catalogo) {
-        textoPos.setText(catalogo.toString());
+        textoPos.setText(catalogo.listarCompradores());
     }
     public JPanel getPainel(CatalogoCompradores catalogo) {
 

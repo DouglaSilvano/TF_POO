@@ -93,6 +93,10 @@ public class Tecnologia {
         return fornecedor;
     }
 
+    public void setFornecedor(Fornecedor f) {
+        this.fornecedor = f;
+    }
+
     public boolean isVendida() {
         return vendida;
     }
