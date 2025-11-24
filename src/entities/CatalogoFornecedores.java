@@ -84,7 +84,40 @@ public class CatalogoFornecedores {
         }
         return sb.toString();
     }
+    public ResultadoAnalise consultarFornecedorMaiorQtde(CatalogoTecnologias tec){
 
+        ArrayList<Fornecedor> listaVencedores = new ArrayList<>();
+        List<Tecnologia> listaDeTecnologias = tec.getLista();
+        if(listaDeTecnologias.isEmpty()){
+            ResultadoAnalise nada = new ResultadoAnalise(listaVencedores,0);
+            return nada;
+        }
+        int maiorQuantidade = 0;
+        Fornecedor forn = listaDeTecnologias.getFirst().getFornecedor();
+        for(Fornecedor f : listaFornecedores){
+            int contadorAtual = 0;
+            for (Tecnologia t : listaDeTecnologias){
+                if(t.getFornecedor().getCod() == f.getCod()){
+                    contadorAtual++;
+                }
+
+            }
+            if (contadorAtual > 0) {
+                if (contadorAtual > maiorQuantidade) {
+                    // quando tiver um novo contador, limpa a lista atual e adiciona o novo
+                    maiorQuantidade = contadorAtual;
+                    listaVencedores.clear();
+                    listaVencedores.add(f);
+                } else if (contadorAtual == maiorQuantidade) {
+                    // adiciona empate tbm
+                    listaVencedores.add(f);
+                }
+            }
+
+        }
+        ResultadoAnalise retornar = new ResultadoAnalise(listaVencedores,maiorQuantidade);
+        return retornar;
+    }
     public void limpar() {
         listaFornecedores.clear();
     }

@@ -1,9 +1,11 @@
 package interfaceGrafica.ConsultasMaiores;
 
 import entities.CatalogoTecnologias;
+import entities.Tecnologia;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 //1 - Consultar tecnologia com maior valor: mostra os dados da tecnologia com maior
 //valor cadastrado. Se houver empate, mostra todas. Se não há tecnologia cadastrada,
@@ -28,10 +30,24 @@ public class ConsultarMaiorTec {
         });
 
 
+
+    }
+    private void mostrarDados(CatalogoTecnologias catalogo) {
+        ArrayList<Tecnologia> tecnologiasMaiores = catalogo.consultarTecnologiaMaior();
+        if(tecnologiasMaiores.isEmpty()){
+            //codigo para null
+            textoPos.setText("ERRO: Nenhuma tecnologia cadastrada ainda.");
+            return;
+        }
+
+        textoPos.setText(tecnologiasMaiores.toString());
     }
     private JButton finalizarButton;
     private JPanel painel;
-    public JPanel getPainel() {
+    private JTextArea textoPos;
+
+    public JPanel getPainel(CatalogoTecnologias catalogo) {
+        mostrarDados(catalogo);
         return painel;
     }
 }

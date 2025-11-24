@@ -71,4 +71,25 @@ public class CatalogoCompradores {
         return true;
 
     }
+    public ArrayList<Comprador> consultarMaiorCom(CatalogoCompradores com){
+        ArrayList<Comprador> retornar = new ArrayList();
+        List<Comprador> listaCom= com.getLista();
+        if(listaCom.isEmpty()){
+            return retornar;
+        }
+        int maiorQtdVendas = listaCom.get(0).getQtdVendas();
+        for(Comprador c :listaCom){
+            if(c.getQtdVendas()>maiorQtdVendas){
+                maiorQtdVendas=c.getQtdVendas();
+            }
+        }
+        for(Comprador c :listaCom){
+            if(c.getQtdVendas()==maiorQtdVendas){
+
+                retornar.add(c);
+            }
+
+        }
+        return retornar;
+    }
 }

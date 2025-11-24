@@ -31,7 +31,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="b42fa" class="javax.swing.JTextArea">
+          <component id="b42fa" class="javax.swing.JTextArea" binding="textoPos">
             <constraints/>
             <properties>
               <enabled value="false"/>
