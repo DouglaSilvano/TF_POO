@@ -31,6 +31,18 @@ public class Comprador extends Participante {
         return qtdVendas;
     }
 
+    // Incrementar qtdVendas
+    public void incrementarQtdVendas() {
+        this.qtdVendas++;
+    }
+
+    // Decrementar qtdVendas
+    public void decrementarQtdVendas() {
+        if (this.qtdVendas > 0) {
+            this.qtdVendas--;
+        }
+    }
+
     @Override
     public String geraDescricao() {
         return getCod() + ";" + getNome() + ";" + pais + ";" + email;

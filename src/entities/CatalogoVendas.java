@@ -33,6 +33,9 @@ public class CatalogoVendas {
             listaVendas.add(nova);
             listaVendas.sort(Comparator.comparingLong(Venda::getNum).reversed());
             tecnologia.setVendida(true);
+
+            // Incrementar qtdVendas
+            comprador.incrementarQtdVendas();
             return "Venda cadastrada com sucesso! <3";
         } catch (NumberFormatException e) {
             return "Número inválido!";
@@ -69,6 +72,13 @@ public class CatalogoVendas {
             if (v.getTecnologia() != null) {
                 v.getTecnologia().setVendida(false);
             }
+
+            // Decrementar qtdVendas
+            Comprador c = v.getComprador();
+            if (c != null) {
+                c.decrementarQtdVendas();
+            }
+
             listaVendas.remove(v);
             return "Venda removida com sucesso! :o";
         } catch (NumberFormatException e) {
