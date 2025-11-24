@@ -30,7 +30,7 @@ public class Venda {
                 case TI: acrescimo = 0.20; break;
                 case ANDROIDES: acrescimo = 0.15; break;
                 case EMERGENTE: acrescimo = 0.25; break;
-                case ALIMENTOS: acrescimo = 0.20; break;
+                case ALIMENTOS: acrescimo = 0.10; break;
             }
         }
         double valorComAcrescimo = valorBase * (1 + acrescimo);

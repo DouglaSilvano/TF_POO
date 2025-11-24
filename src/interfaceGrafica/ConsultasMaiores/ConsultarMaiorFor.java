@@ -1,14 +1,16 @@
 package interfaceGrafica.ConsultasMaiores;
 
 import entities.CatalogoFornecedores;
+import entities.CatalogoTecnologias;
+import entities.ResultadoAnalise;
+import entities.Tecnologia;
 
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
-//1 - Consultar tecnologia com maior valor: mostra os dados da tecnologia com maior
-//valor cadastrado. Se houver empate, mostra todas. Se não há tecnologia cadastrada,
-//mostra uma mensagem de erro.
+
 //2 - Consultar fornecedor com maior número de tecnologias: mostra os dados do
 //fornecedor com maior quantidade de tecnologias, e a quantidade de tecnologias
 //correspondente. Se houver empate, mostra todos. Se não há fornecedor cadastrada,
@@ -20,19 +22,33 @@ import java.awt.*;
 //houver empate, mostra todas. Se não há venda cadastrada, mostra uma mensagem
 //de erro.
 public class ConsultarMaiorFor {
-    public ConsultarMaiorFor(CatalogoFornecedores forn){
+    public ConsultarMaiorFor(CatalogoFornecedores catalogoFor,CatalogoTecnologias catalogoTec){
         finalizarButton.addActionListener(e -> {
             Window window = SwingUtilities.getWindowAncestor(painel);
             if (window != null) {
                 window.dispose();
             }
         });
+    }
+    private void mostrarDados(CatalogoFornecedores catalogoFor, CatalogoTecnologias catalogoTec) {
+        ResultadoAnalise resultado;
+        resultado = catalogoFor.consultarFornecedorMaiorQtde(catalogoTec);
+        if(resultado.getQuantidade() ==0){
+            //codigo para null
+            textoPos.setText("ERRO: Nenhuma tecnologia cadastrada ainda.");
+            return;
+        }
+        String resultadoJunto = "Quantidade de tecnologias correspondente: " + resultado.getQuantidade() + "\n"
+                                + resultado.getListaFornecedores().toString();
 
-
+        textoPos.setText(resultadoJunto);
     }
     private JButton finalizarButton;
     private JPanel painel;
-    public JPanel getPainel() {
+    private JTextArea textoPos;
+
+    public JPanel getPainel(CatalogoFornecedores catalogoFor,CatalogoTecnologias catalogoTec) {
+        mostrarDados(catalogoFor,catalogoTec);
         return painel;
     }
 }

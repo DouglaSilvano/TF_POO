@@ -56,8 +56,36 @@ public class CatalogoTecnologias {
         }
         return null;
     }
+    public ArrayList<Tecnologia> consultarTecnologiaMaior(){
+        ArrayList<Tecnologia> retornar = new ArrayList();
+        if(tecnologias.isEmpty()){
+            return retornar;
+        }
+        int contador = 0;
+
+        Tecnologia maior = tecnologias.getFirst();
+        for(Tecnologia t: tecnologias){
+            if(maior.getValorBase() < t.getValorBase()){
+                maior = t;
+            }
+        }
+        retornar.add(maior);
+        for(Tecnologia t: tecnologias){
+            if(maior.getValorBase() == t.getValorBase()){
+                if(contador != 0){
+                    retornar.add(t);
+                }
+                contador++;
+            }
+        }
+        return retornar;
+    }
 
     public List<Tecnologia> getLista() {
         return tecnologias;
     }
+
+//    public int size() {
+//        return tecnologias.size();
+//    }
 }
