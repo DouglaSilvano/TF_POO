@@ -24,7 +24,7 @@ public class ConsultarMaior {
         consultarTecnologiaComMaiorButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent x){
                 JFrame f = new JFrame("Consultar maior tecnologia?");
-                f.setContentPane(new ConsultarMaiorTec(catalogoTec).getPainel());
+                f.setContentPane(new ConsultarMaiorTec(catalogoTec).getPainel(catalogoTec));
                 f.pack();
                 f.setVisible(true);
             }
@@ -32,7 +32,7 @@ public class ConsultarMaior {
         consultarFornecedorComMaiorButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent x) {
                 JFrame f = new JFrame("Consultar maior fornecedor?");
-                f.setContentPane(new ConsultarMaiorFor(catalogoFor).getPainel());
+                f.setContentPane(new ConsultarMaiorFor(catalogoFor,catalogoTec).getPainel(catalogoFor,catalogoTec));
                 f.pack();
                 f.setVisible(true);
             }
@@ -40,7 +40,7 @@ public class ConsultarMaior {
         consultarCompradorComMaiorButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent x) {
                 JFrame f = new JFrame("Consultar maior comprador?");
-                f.setContentPane(new ConsultarMaiorCom(catalogoCom).getPainel());
+                f.setContentPane(new ConsultarMaiorCom(catalogoCom).getPainel(catalogoCom));
                 f.pack();
                 f.setVisible(true);
             }
