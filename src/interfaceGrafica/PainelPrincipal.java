@@ -4,6 +4,8 @@ import entities.*;
 import application.PersistenciaCSV;
 import javax.swing.*;
 import java.io.IOException;
+import application.PersistenciaJSON;
+
 
 public class PainelPrincipal {
     private JPanel painelMenu;
@@ -20,6 +22,8 @@ public class PainelPrincipal {
     private JButton consultarMaiorButton;
     private JButton botaoSalvarCSV;
     private JButton botaoCarregarCSV;
+    private JButton botaoSalvarJSON;
+    private JButton botaoCarregarJSON;
     CatalogoFornecedores catalogoFor = new CatalogoFornecedores();
     CatalogoTecnologias catalogoTec = new CatalogoTecnologias();
     CatalogoCompradores catalogoCom = new CatalogoCompradores();
@@ -42,6 +46,8 @@ public class PainelPrincipal {
         consultarMaiorButton.addActionListener(e -> consultarMaior(catalogoVen,catalogoFor,catalogoCom,catalogoTec));
         botaoSalvarCSV.addActionListener(e -> salvarDadosCSV());
         botaoCarregarCSV.addActionListener(e -> carregarDadosCSV());
+        botaoCarregarJSON.addActionListener(e -> carregarDadosJSON());
+        botaoSalvarJSON.addActionListener(e -> salvarDadosJSON());
     }
 
     private void abrirTelaFornecedor(CatalogoFornecedores catalogoFor) {
@@ -301,6 +307,48 @@ public class PainelPrincipal {
                     "Erro",
                     JOptionPane.ERROR_MESSAGE
             );
+        }
+    }
+
+    private void salvarDadosJSON() {
+        String nomeBase = JOptionPane.showInputDialog(
+                painelMenu,
+                "Digite o nome base do arquivo JSON (sem extensão):",
+                "Salvar dados em JSON",
+                JOptionPane.QUESTION_MESSAGE
+        );
+        if (nomeBase == null) return;
+        nomeBase = nomeBase.trim();
+        if (nomeBase.isEmpty()) {
+            JOptionPane.showMessageDialog(painelMenu, "Nome inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            PersistenciaJSON.salvarTudoJSON(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
+            JOptionPane.showMessageDialog(painelMenu, "Dados salvos em JSON com sucesso.");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(painelMenu, "Erro ao salvar JSON: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void carregarDadosJSON() {
+        String nomeBase = JOptionPane.showInputDialog(
+                painelMenu,
+                "Digite o nome base do arquivo JSON (sem extensão):",
+                "Carregar dados de JSON",
+                JOptionPane.QUESTION_MESSAGE
+        );
+        if (nomeBase == null) return;
+        nomeBase = nomeBase.trim();
+        if (nomeBase.isEmpty()) {
+            JOptionPane.showMessageDialog(painelMenu, "Nome inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            PersistenciaJSON.carregarTudoJSON(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
+            JOptionPane.showMessageDialog(painelMenu, "Dados carregados de JSON com sucesso.");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(painelMenu, "Erro ao carregar JSON: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
