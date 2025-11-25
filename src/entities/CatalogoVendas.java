@@ -108,4 +108,8 @@ public class CatalogoVendas {
         }
         return retornar;
     }
+
+    public void limpar() {
+        listaVendas.clear();
+    }
 }

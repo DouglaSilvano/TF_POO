@@ -85,6 +85,18 @@ public class CatalogoTecnologias {
         return tecnologias;
     }
 
+    public void limpar() {
+        tecnologias.clear();
+    }
+
+    public Tecnologia buscarPorId(long id) {
+        for (Tecnologia t : tecnologias) {
+            if (t.getId() == id) {
+                return t;
+            }
+        }
+        return null;
+    }
 //    public int size() {
 //        return tecnologias.size();
 //    }
