@@ -118,6 +118,10 @@ public class CatalogoFornecedores {
         ResultadoAnalise retornar = new ResultadoAnalise(listaVencedores,maiorQuantidade);
         return retornar;
     }
+    public List<Fornecedor> getTodosFornecedores() {
+        return listaFornecedores;
+    }
+
     public void limpar() {
         listaFornecedores.clear();
     }

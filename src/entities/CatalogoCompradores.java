@@ -92,4 +92,8 @@ public class CatalogoCompradores {
         }
         return retornar;
     }
+
+    public void limpar() {
+        compradores.clear();
+    }
 }

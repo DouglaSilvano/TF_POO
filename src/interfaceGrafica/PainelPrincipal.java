@@ -1,8 +1,9 @@
 package interfaceGrafica;
 
 import entities.*;
-
+import application.PersistenciaCSV;
 import javax.swing.*;
+import java.io.IOException;
 
 public class PainelPrincipal {
     private JPanel painelMenu;
@@ -17,6 +18,8 @@ public class PainelPrincipal {
     private JButton botaoAlterarCom;
     private JButton easterEggButton;
     private JButton consultarMaiorButton;
+    private JButton botaoSalvarCSV;
+    private JButton botaoCarregarCSV;
     CatalogoFornecedores catalogoFor = new CatalogoFornecedores();
     CatalogoTecnologias catalogoTec = new CatalogoTecnologias();
     CatalogoCompradores catalogoCom = new CatalogoCompradores();
@@ -37,6 +40,8 @@ public class PainelPrincipal {
         botaoAlterarCom.addActionListener(e -> abrirTelaAlterarCom(catalogoCom));
         easterEggButton.addActionListener(e -> adicionarDadosAutomaticamente(catalogoVen,catalogoFor,catalogoTec,catalogoCom));
         consultarMaiorButton.addActionListener(e -> consultarMaior(catalogoVen,catalogoFor,catalogoCom,catalogoTec));
+        botaoSalvarCSV.addActionListener(e -> salvarDadosCSV());
+        botaoCarregarCSV.addActionListener(e -> carregarDadosCSV());
     }
 
     private void abrirTelaFornecedor(CatalogoFornecedores catalogoFor) {
@@ -213,5 +218,91 @@ public class PainelPrincipal {
 
         System.out.println("Carga de dados concluída com sucesso! (Incluindo 4 Vendas)");
     }
+
+    // ===================== SALVAR / CARREGAR CSV =====================
+
+    private void salvarDadosCSV() {   // NOVO
+        String nomeBase = JOptionPane.showInputDialog(
+                painelMenu,
+                "Digite o nome base dos arquivos (sem extensão):",
+                "Salvar dados em CSV",
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (nomeBase == null) {
+
+            return;
+        }
+
+        nomeBase = nomeBase.trim();
+        if (nomeBase.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    painelMenu,
+                    "Nome de arquivo inválido.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        try {
+            PersistenciaCSV.salvarTudoCSV(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
+            JOptionPane.showMessageDialog(
+                    painelMenu,
+                    "Dados salvos com sucesso em arquivos CSV.",
+                    "Salvar dados",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(
+                    painelMenu,
+                    "Erro ao salvar dados: " + ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    private void carregarDadosCSV() {  // NOVO
+        String nomeBase = JOptionPane.showInputDialog(
+                painelMenu,
+                "Digite o nome base dos arquivos (sem extensão):",
+                "Carregar dados de CSV",
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (nomeBase == null) {
+            return;
+        }
+
+        nomeBase = nomeBase.trim();
+        if (nomeBase.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    painelMenu,
+                    "Nome de arquivo inválido.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        try {
+            PersistenciaCSV.carregarTudoCSV(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
+            JOptionPane.showMessageDialog(
+                    painelMenu,
+                    "Dados carregados com sucesso.",
+                    "Carregar dados",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(
+                    painelMenu,
+                    "Erro ao carregar dados: " + ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
 }
 
