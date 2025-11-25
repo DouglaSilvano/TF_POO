@@ -23,7 +23,7 @@ public class ConsultarMaior {
                           CatalogoCompradores catalogoCom){
         consultarTecnologiaComMaiorButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent x){
-                JFrame f = new JFrame("Consultar maior tecnologia?");
+                JFrame f = new JFrame("Consulta maiores tecnologias");
                 f.setContentPane(new ConsultarMaiorTec(catalogoTec).getPainel(catalogoTec));
                 f.pack();
                 f.setVisible(true);
@@ -31,7 +31,7 @@ public class ConsultarMaior {
         });
         consultarFornecedorComMaiorButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent x) {
-                JFrame f = new JFrame("Consultar maior fornecedor?");
+                JFrame f = new JFrame("Consultar maiores fornecedores");
                 f.setContentPane(new ConsultarMaiorFor(catalogoFor,catalogoTec).getPainel(catalogoFor,catalogoTec));
                 f.pack();
                 f.setVisible(true);
@@ -39,7 +39,7 @@ public class ConsultarMaior {
         });
         consultarCompradorComMaiorButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent x) {
-                JFrame f = new JFrame("Consultar maior comprador?");
+                JFrame f = new JFrame("Consultar maiores compradores");
                 f.setContentPane(new ConsultarMaiorCom(catalogoCom).getPainel(catalogoCom));
                 f.pack();
                 f.setVisible(true);
@@ -47,8 +47,8 @@ public class ConsultarMaior {
         });
         consultarVendaComMaiorButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent x) {
-                JFrame f = new JFrame("Consultar maior venda?");
-                f.setContentPane(new ConsultarMaiorVen(catalogoVen).getPainel());
+                JFrame f = new JFrame("Consultar maiores vendas");
+                f.setContentPane(new ConsultarMaiorVen(catalogoVen).getPainel(catalogoVen));
                 f.pack();
                 f.setVisible(true);
             }
