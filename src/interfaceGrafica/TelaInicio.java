@@ -2,8 +2,11 @@ package interfaceGrafica;
 
 import javax.swing.*;
 import java.awt.*;
+import application.ACMETech;
 
 public class TelaInicio extends JFrame {
+
+    private ACMETech sistema;
 
     public TelaInicio() {
 
@@ -39,11 +42,21 @@ public class TelaInicio extends JFrame {
         //tratamento de evento do botao (unico)
         iniciar.addActionListener(e -> {
             dispose();
-            new AplicacaoMenu();
+
+            JFrame frame = new JFrame("Menu Principal - ACMETech");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setContentPane(new PainelPrincipal(sistema).getPainel());
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         });
         painelBotao.add(iniciar);
         //painel fica no sul (south) por questoes esteticas
         add(painelBotao, BorderLayout.SOUTH);
         setVisible(true);
+    }
+    public TelaInicio(ACMETech sistema) {
+        this();              // monta a tela normalmente
+        this.sistema = sistema;
     }
 }
