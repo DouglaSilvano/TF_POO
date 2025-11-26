@@ -9,15 +9,20 @@ import java.util.Date;
 
 public class PersistenciaJSON {
 
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy");
+    private final SimpleDateFormat sdf;
+
+    public PersistenciaJSON() {
+        this.sdf = new SimpleDateFormat("dd/MM/yyyy");
+        this.sdf.setLenient(false);
+    }
 
     // ========= MÉTODOS PÚBLICOS PRINCIPAIS =========
 
-    public static void salvarTudoJSON(String nomeBase,
-                                      CatalogoFornecedores catalogoFor,
-                                      CatalogoTecnologias catalogoTec,
-                                      CatalogoCompradores catalogoCom,
-                                      CatalogoVendas catalogoVen) throws IOException {
+    public void salvarTudoJSON(String nomeBase,
+                               CatalogoFornecedores catalogoFor,
+                               CatalogoTecnologias catalogoTec,
+                               CatalogoCompradores catalogoCom,
+                               CatalogoVendas catalogoVen) throws IOException {
 
         String nomeArquivo = nomeBase + ".json";
 
@@ -32,7 +37,7 @@ public class PersistenciaJSON {
                     out.println("    ,");
                 }
                 primeiro = false;
-                String fundacao = (f.getFundacao() != null) ? SDF.format(f.getFundacao()) : "";
+                String fundacao = (f.getFundacao() != null) ? sdf.format(f.getFundacao()) : "";
                 String area = (f.getArea() != null) ? f.getArea().name() : "";
                 out.print("    {");
                 out.print("\"cod\":\"" + f.getCod() + "\",");
@@ -92,7 +97,7 @@ public class PersistenciaJSON {
                     out.println("    ,");
                 }
                 primeiro = false;
-                String dataStr = SDF.format(v.getData());
+                String dataStr = sdf.format(v.getData());
                 long idTec = (v.getTecnologia() != null) ? v.getTecnologia().getId() : 0;
                 long codCom = (v.getComprador() != null) ? v.getComprador().getCod() : 0;
                 out.print("    {");
@@ -109,11 +114,11 @@ public class PersistenciaJSON {
         }
     }
 
-    public static void carregarTudoJSON(String nomeBase,
-                                        CatalogoFornecedores catalogoFor,
-                                        CatalogoTecnologias catalogoTec,
-                                        CatalogoCompradores catalogoCom,
-                                        CatalogoVendas catalogoVen) throws IOException {
+    public void carregarTudoJSON(String nomeBase,
+                                 CatalogoFornecedores catalogoFor,
+                                 CatalogoTecnologias catalogoTec,
+                                 CatalogoCompradores catalogoCom,
+                                 CatalogoVendas catalogoVen) throws IOException {
 
         String nomeArquivo = nomeBase + ".json";
 
@@ -204,7 +209,7 @@ public class PersistenciaJSON {
                     if (numStr == null || dataStr == null || idTecStr == null || codComStr == null) continue;
 
                     long num = Long.parseLong(numStr);
-                    Date data = SDF.parse(dataStr);
+                    Date data = sdf.parse(dataStr);
                     long idTec = Long.parseLong(idTecStr);
                     long codCom = Long.parseLong(codComStr);
 
@@ -229,14 +234,13 @@ public class PersistenciaJSON {
 
     // ========= HELPERS SIMPLES DE JSON =========
 
-    // Escapa aspas e barras invertidas básicas
-    private static String escapeJson(String s) {
+    private String escapeJson(String s) {
         if (s == null) return "";
         return s.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
     // extrai o conteúdo de um array JSON: "campo": [ ... ]
-    private static String extrairArray(String json, String campo) {
+    private String extrairArray(String json, String campo) {
         String chave = "\"" + campo + "\"";
         int idx = json.indexOf(chave);
         if (idx == -1) return null;
@@ -260,11 +264,10 @@ public class PersistenciaJSON {
     }
 
     // Quebra array de objetos em strings individuais, assumindo formato { ... },{ ... },{ ... }
-    private static String[] quebrarObjetos(String arraySemColchetes) {
+    private String[] quebrarObjetos(String arraySemColchetes) {
         arraySemColchetes = arraySemColchetes.trim();
         if (arraySemColchetes.isEmpty()) return new String[0];
 
-        // quebra em "},{" mas preserva as chaves
         String[] partes = arraySemColchetes.split("\\},\\s*\\{");
 
         for (int i = 0; i < partes.length; i++) {
@@ -281,7 +284,7 @@ public class PersistenciaJSON {
     }
 
     // extrai um campo string do tipo "campo":"valor"
-    private static String extrairCampo(String objJson, String campo) {
+    private String extrairCampo(String objJson, String campo) {
         String chave = "\"" + campo + "\"";
         int idx = objJson.indexOf(chave);
         if (idx == -1) return null;

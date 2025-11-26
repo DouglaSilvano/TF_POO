@@ -24,6 +24,8 @@ public class PainelPrincipal {
     private JButton botaoCarregarCSV;
     private JButton botaoSalvarJSON;
     private JButton botaoCarregarJSON;
+    private PersistenciaCSV persistenciaCSV = new PersistenciaCSV();
+    private PersistenciaJSON persistenciaJSON = new PersistenciaJSON();
     CatalogoFornecedores catalogoFor = new CatalogoFornecedores();
     CatalogoTecnologias catalogoTec = new CatalogoTecnologias();
     CatalogoCompradores catalogoCom = new CatalogoCompradores();
@@ -252,7 +254,7 @@ public class PainelPrincipal {
         }
 
         try {
-            PersistenciaCSV.salvarTudoCSV(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
+            persistenciaCSV.salvarTudoCSV(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
             JOptionPane.showMessageDialog(
                     painelMenu,
                     "Dados salvos com sucesso em arquivos CSV.",
@@ -293,7 +295,7 @@ public class PainelPrincipal {
         }
 
         try {
-            PersistenciaCSV.carregarTudoCSV(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
+            persistenciaCSV.carregarTudoCSV(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
             JOptionPane.showMessageDialog(
                     painelMenu,
                     "Dados carregados com sucesso.",
@@ -324,7 +326,7 @@ public class PainelPrincipal {
             return;
         }
         try {
-            PersistenciaJSON.salvarTudoJSON(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
+            persistenciaJSON.salvarTudoJSON(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
             JOptionPane.showMessageDialog(painelMenu, "Dados salvos em JSON com sucesso.");
         } catch (IOException e) {
             JOptionPane.showMessageDialog(painelMenu, "Erro ao salvar JSON: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -345,7 +347,7 @@ public class PainelPrincipal {
             return;
         }
         try {
-            PersistenciaJSON.carregarTudoJSON(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
+            persistenciaJSON.carregarTudoJSON(nomeBase, catalogoFor, catalogoTec, catalogoCom, catalogoVen);
             JOptionPane.showMessageDialog(painelMenu, "Dados carregados de JSON com sucesso.");
         } catch (IOException e) {
             JOptionPane.showMessageDialog(painelMenu, "Erro ao carregar JSON: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
