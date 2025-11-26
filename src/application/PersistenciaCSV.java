@@ -2,7 +2,14 @@ package application;
 
 import entities.*;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,28 +53,46 @@ public class PersistenciaCSV {
 
     private void salvarFornecedoresCSV(String nomeArquivo,
                                        CatalogoFornecedores catalogoFor) throws IOException {
-        try (PrintWriter out = new PrintWriter(new FileWriter(nomeArquivo))) {
-            out.println("cod;nome;fundacao;area");
+
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(nomeArquivo),
+                        StandardCharsets.UTF_8))) {
+
+            writer.write("cod;nome;fundacao;area");
+            writer.newLine();
+
             for (Fornecedor f : catalogoFor.getTodosFornecedores()) {
                 String dataStr = f.getFundacao() != null ? sdf.format(f.getFundacao()) : "";
                 String areaStr = (f.getArea() != null) ? f.getArea().name() : "";
-                out.printf("%d;%s;%s;%s%n",
+                String linha = String.format(
+                        "%d;%s;%s;%s",
                         f.getCod(),
                         f.getNome(),
                         dataStr,
                         areaStr
                 );
+                writer.write(linha);
+                writer.newLine();
             }
         }
     }
 
     private void salvarTecnologiasCSV(String nomeArquivo,
                                       CatalogoTecnologias catalogoTec) throws IOException {
-        try (PrintWriter out = new PrintWriter(new FileWriter(nomeArquivo))) {
-            out.println("id;modelo;descricao;valorBase;peso;temperatura;codFornecedor");
+
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(nomeArquivo),
+                        StandardCharsets.UTF_8))) {
+
+            writer.write("id;modelo;descricao;valorBase;peso;temperatura;codFornecedor");
+            writer.newLine();
+
             for (Tecnologia t : catalogoTec.getLista()) {
                 long codFor = (t.getFornecedor() != null) ? t.getFornecedor().getCod() : 0;
-                out.printf("%d;%s;%s;%.2f;%.2f;%.2f;%d%n",
+                String linha = String.format(
+                        "%d;%s;%s;%.2f;%.2f;%.2f;%d",
                         t.getId(),
                         t.getModelo(),
                         t.getDescricao(),
@@ -76,34 +101,55 @@ public class PersistenciaCSV {
                         t.getTemperatura(),
                         codFor
                 );
+                writer.write(linha);
+                writer.newLine();
             }
         }
     }
 
     private void salvarCompradoresCSV(String nomeArquivo,
                                       CatalogoCompradores catalogoCom) throws IOException {
-        try (PrintWriter out = new PrintWriter(new FileWriter(nomeArquivo))) {
-            out.println("cod;nome;pais;email");
+
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(nomeArquivo),
+                        StandardCharsets.UTF_8))) {
+
+            writer.write("cod;nome;pais;email");
+            writer.newLine();
+
             for (Comprador c : catalogoCom.getTodosCompradores()) {
-                out.println(c.geraDescricao()); // já vem cod;nome;pais;email
+                writer.write(c.geraDescricao()); // já vem cod;nome;pais;email
+                writer.newLine();
             }
         }
     }
 
     private void salvarVendasCSV(String nomeArquivo,
                                  CatalogoVendas catalogoVen) throws IOException {
-        try (PrintWriter out = new PrintWriter(new FileWriter(nomeArquivo))) {
-            out.println("num;data;idTecnologia;codComprador");
+
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(nomeArquivo),
+                        StandardCharsets.UTF_8))) {
+
+            writer.write("num;data;idTecnologia;codComprador");
+            writer.newLine();
+
             for (Venda v : catalogoVen.getLista()) {
                 String dataStr = sdf.format(v.getData());
                 long idTec = (v.getTecnologia() != null) ? v.getTecnologia().getId() : 0;
                 long codCom = (v.getComprador() != null) ? v.getComprador().getCod() : 0;
-                out.printf("%d;%s;%d;%d%n",
+
+                String linha = String.format(
+                        "%d;%s;%d;%d",
                         v.getNum(),
                         dataStr,
                         idTec,
                         codCom
                 );
+                writer.write(linha);
+                writer.newLine();
             }
         }
     }
@@ -111,22 +157,29 @@ public class PersistenciaCSV {
     // ========= CARREGAR =========
 
     private void carregarFornecedoresCSV(String nomeArquivo,
-                                         CatalogoFornecedores catalogoFor)
-            throws IOException {
+                                         CatalogoFornecedores catalogoFor) throws IOException {
 
         catalogoFor.limpar();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(nomeArquivo),
+                        StandardCharsets.UTF_8))) {
+
             String linha = br.readLine(); // cabeçalho
 
             while ((linha = br.readLine()) != null) {
-                if (linha.trim().isEmpty()) continue;
+                if (linha.trim().isEmpty()) {
+                    continue;
+                }
 
                 String[] partes = linha.split(";");
-                if (partes.length < 4) continue;
+                if (partes.length < 4) {
+                    continue;
+                }
 
-                String codStr = partes[0];
-                String nome = partes[1];
+                String codStr  = partes[0];
+                String nome    = partes[1];
                 String dataStr = partes[2];
                 String areaStr = partes[3];
 
@@ -137,27 +190,34 @@ public class PersistenciaCSV {
 
     private void carregarTecnologiasCSV(String nomeArquivo,
                                         CatalogoTecnologias catalogoTec,
-                                        CatalogoFornecedores catalogoFor)
-            throws IOException {
+                                        CatalogoFornecedores catalogoFor) throws IOException {
 
         catalogoTec.limpar();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(nomeArquivo),
+                        StandardCharsets.UTF_8))) {
+
             String linha = br.readLine(); // cabeçalho
 
             while ((linha = br.readLine()) != null) {
-                if (linha.trim().isEmpty()) continue;
+                if (linha.trim().isEmpty()) {
+                    continue;
+                }
 
                 String[] partes = linha.split(";");
-                if (partes.length < 7) continue;
+                if (partes.length < 7) {
+                    continue;
+                }
 
-                long id = Long.parseLong(partes[0]);
-                String modelo = partes[1];
-                String descricao = partes[2];
-                double valorBase = Double.parseDouble(partes[3]);
-                double peso = Double.parseDouble(partes[4]);
-                double temperatura = Double.parseDouble(partes[5]);
-                long codFor = Long.parseLong(partes[6]);
+                long id           = Long.parseLong(partes[0]);
+                String modelo     = partes[1];
+                String descricao  = partes[2];
+                double valorBase  = Double.parseDouble(partes[3]);
+                double peso       = Double.parseDouble(partes[4]);
+                double temperatura= Double.parseDouble(partes[5]);
+                long codFor       = Long.parseLong(partes[6]);
 
                 Fornecedor f = catalogoFor.buscarFornecedor(codFor);
                 Tecnologia t = new Tecnologia(id, modelo, descricao, peso, valorBase, temperatura, f);
@@ -169,23 +229,30 @@ public class PersistenciaCSV {
     }
 
     private void carregarCompradoresCSV(String nomeArquivo,
-                                        CatalogoCompradores catalogoCom)
-            throws IOException {
+                                        CatalogoCompradores catalogoCom) throws IOException {
 
         catalogoCom.limpar();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(nomeArquivo),
+                        StandardCharsets.UTF_8))) {
+
             String linha = br.readLine(); // cabeçalho
 
             while ((linha = br.readLine()) != null) {
-                if (linha.trim().isEmpty()) continue;
+                if (linha.trim().isEmpty()) {
+                    continue;
+                }
 
                 String[] partes = linha.split(";");
-                if (partes.length < 4) continue;
+                if (partes.length < 4) {
+                    continue;
+                }
 
-                long cod = Long.parseLong(partes[0]);
-                String nome = partes[1];
-                String pais = partes[2];
+                long   cod   = Long.parseLong(partes[0]);
+                String nome  = partes[1];
+                String pais  = partes[2];
                 String email = partes[3];
 
                 Comprador c = new Comprador(cod, nome, pais, email);
@@ -199,31 +266,38 @@ public class PersistenciaCSV {
     private void carregarVendasCSV(String nomeArquivo,
                                    CatalogoVendas catalogoVen,
                                    CatalogoTecnologias catalogoTec,
-                                   CatalogoCompradores catalogoCom)
-            throws IOException {
+                                   CatalogoCompradores catalogoCom) throws IOException {
 
         catalogoVen.limpar();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(nomeArquivo),
+                        StandardCharsets.UTF_8))) {
+
             String linha = br.readLine(); // cabeçalho
 
             while ((linha = br.readLine()) != null) {
-                if (linha.trim().isEmpty()) continue;
+                if (linha.trim().isEmpty()) {
+                    continue;
+                }
 
                 String[] partes = linha.split(";");
-                if (partes.length < 4) continue;
+                if (partes.length < 4) {
+                    continue;
+                }
 
-                long num = Long.parseLong(partes[0]);
-                String dataStr = partes[1];
-                long idTec = Long.parseLong(partes[2]);
-                long codCom = Long.parseLong(partes[3]);
+                long   num    = Long.parseLong(partes[0]);
+                String dataStr= partes[1];
+                long   idTec  = Long.parseLong(partes[2]);
+                long   codCom = Long.parseLong(partes[3]);
 
                 Date data = sdf.parse(dataStr);
                 Tecnologia tec = catalogoTec.buscarPorId(idTec);
-                Comprador com = catalogoCom.buscarPorCodigo(codCom);
+                Comprador  com = catalogoCom.buscarPorCodigo(codCom);
 
                 if (tec == null || com == null) {
-                    // dado inconsistente (referência sem existir no catálogo) → ignora essa venda
+                    // dado inconsistente → ignora essa venda
                     continue;
                 }
 
