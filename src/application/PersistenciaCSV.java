@@ -2,13 +2,7 @@ package application;
 
 import entities.*;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +11,7 @@ import java.util.Date;
 public class PersistenciaCSV {
 
     private final SimpleDateFormat sdf;
-
+    private final String PASTA_RECURSOS = "RECURSOS" + File.separator;
     public PersistenciaCSV() {
         this.sdf = new SimpleDateFormat("dd/MM/yyyy");
         this.sdf.setLenient(false);
@@ -31,10 +25,10 @@ public class PersistenciaCSV {
                               CatalogoCompradores catalogoCom,
                               CatalogoVendas catalogoVen) throws IOException {
 
-        salvarFornecedoresCSV(nomeBase + "_fornecedores.csv", catalogoFor);
-        salvarTecnologiasCSV(nomeBase + "_tecnologias.csv", catalogoTec);
-        salvarCompradoresCSV(nomeBase + "_compradores.csv", catalogoCom);
-        salvarVendasCSV(nomeBase + "_vendas.csv", catalogoVen);
+        salvarFornecedoresCSV(PASTA_RECURSOS + nomeBase + "_fornecedores.csv", catalogoFor);
+        salvarTecnologiasCSV(PASTA_RECURSOS + nomeBase + "_tecnologias.csv", catalogoTec);
+        salvarCompradoresCSV(PASTA_RECURSOS + nomeBase + "_compradores.csv", catalogoCom);
+        salvarVendasCSV(PASTA_RECURSOS + nomeBase + "_vendas.csv", catalogoVen);
     }
 
     public void carregarTudoCSV(String nomeBase,
@@ -43,10 +37,10 @@ public class PersistenciaCSV {
                                 CatalogoCompradores catalogoCom,
                                 CatalogoVendas catalogoVen) throws IOException {
 
-        carregarFornecedoresCSV(nomeBase + "_fornecedores.csv", catalogoFor);
-        carregarTecnologiasCSV(nomeBase + "_tecnologias.csv", catalogoTec, catalogoFor);
-        carregarCompradoresCSV(nomeBase + "_compradores.csv", catalogoCom);
-        carregarVendasCSV(nomeBase + "_vendas.csv", catalogoVen, catalogoTec, catalogoCom);
+        carregarFornecedoresCSV(PASTA_RECURSOS + nomeBase + "_fornecedores.csv", catalogoFor);
+        carregarTecnologiasCSV(PASTA_RECURSOS + nomeBase + "_tecnologias.csv", catalogoTec, catalogoFor);
+        carregarCompradoresCSV(PASTA_RECURSOS + nomeBase + "_compradores.csv", catalogoCom);
+        carregarVendasCSV(PASTA_RECURSOS + nomeBase + "_vendas.csv", catalogoVen, catalogoTec, catalogoCom);
     }
 
     // ========= SALVAR =========

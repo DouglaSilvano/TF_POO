@@ -12,7 +12,7 @@ public class RelatorioTelaCom {
     private JTextArea textoPos;
 
     public RelatorioTelaCom(CatalogoCompradores catalogo) {
-
+        painel.setBackground(Color.PINK);
 //        mostrarDadosButton.addActionListener(e -> mostrarDados(catalogo));
         finalizarButton.addActionListener(e -> {
             Window window = SwingUtilities.getWindowAncestor(painel);

@@ -3,6 +3,7 @@ package application;
 import entities.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -14,11 +15,11 @@ public class ACMETech {
     private CatalogoTecnologias catalogoTec;
     private CatalogoCompradores catalogoCom;
     private CatalogoVendas catalogoVen;
-
+    private final String PASTA_RECURSOS = "RECURSOS" + File.separator;
     // Nomes dos arquivos de ENTRADA exatamente como no Apêndice
-    private final String ARQ_PARTICIPANTES = "PARTICIPANTESENTRADA.CSV";
-    private final String ARQ_TECNOLOGIAS   = "TECNOLOGIASENTRADA.CSV";
-    private final String ARQ_VENDAS        = "VENDASENTRADA.CSV";
+    private final String ARQ_PARTICIPANTES = PASTA_RECURSOS + "PARTICIPANTESENTRADA.CSV";
+    private final String ARQ_TECNOLOGIAS   = PASTA_RECURSOS + "TECNOLOGIASENTRADA.CSV";
+    private final String ARQ_VENDAS        = PASTA_RECURSOS + "VENDASENTRADA.CSV";
 
     public ACMETech() {
         catalogoFor = new CatalogoFornecedores();

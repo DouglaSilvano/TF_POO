@@ -13,7 +13,7 @@ public class TelaRelatorioFor {
     private JTextArea textoPos;
 
     public TelaRelatorioFor(CatalogoFornecedores catalogo) {
-
+        painel.setBackground(Color.PINK);
         mostrarDadosButton.addActionListener(e -> mostrarDados(catalogo));
         finalizarButton.addActionListener(e -> {
             Window window = SwingUtilities.getWindowAncestor(painel);

@@ -36,8 +36,7 @@ public class TelaTecnologia {
     // boolean erroID = false;
 
     public TelaTecnologia(CatalogoTecnologias catalogoTec, CatalogoFornecedores catalogoFor) {
-
-
+        painel.setBackground(Color.PINK);
         informacaoNecessaria.setText("Para inicializar o programa, digite as informações necessárias e clique em OK.");
 //        contadorOkButton = 0;
         clearButton.addActionListener(new ActionListener(){

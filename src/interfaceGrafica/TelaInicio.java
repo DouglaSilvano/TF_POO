@@ -11,7 +11,7 @@ public class TelaInicio extends JFrame {
         setSize(900, 600); // Janela menor para caber na tela
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(false); //nao poder aumentar a tela pra que n fique feia a imagem
 
         setLayout(new BorderLayout());
         //carregar a imagem que eu criei:
@@ -35,7 +35,8 @@ public class TelaInicio extends JFrame {
         iniciar.setFocusPainted(false); //quis tirar a borda azul feia que windows users tem
         iniciar.setPreferredSize(new Dimension(200, 50)); //tamanho do botao
         iniciar.setForeground(Color.decode("#eba7a3"));; //botao no tom que escolhi pelo canva
-        //tratamento de evento do botao
+
+        //tratamento de evento do botao (unico)
         iniciar.addActionListener(e -> {
             dispose();
             new AplicacaoMenu();

@@ -4,10 +4,10 @@ import entities.CatalogoCompradores;
 import entities.Comprador;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
-import java.awt.Window;
 
 public class TelaComprador implements ActionListener {
 
@@ -26,7 +26,7 @@ public class TelaComprador implements ActionListener {
 
     public TelaComprador(CatalogoCompradores catalogoCom) {
         this.catalogoCom = catalogoCom;
-
+        painelPrincipal.setBackground(Color.PINK);
         btnCadastrar.addActionListener(this);
         btnLimpar.addActionListener(this);
         btnMostrarTodos.addActionListener(this);
