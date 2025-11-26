@@ -15,11 +15,10 @@ public class ACMETech {
     private CatalogoCompradores catalogoCom;
     private CatalogoVendas catalogoVen;
 
-    // Nomes dos arquivos de ENTRADA (ajuste se o Apêndice tiver nomes diferentes)
-    private static final String ARQ_FORNECEDORES = "FORNECEDORESENTRADA.CSV";
-    private static final String ARQ_COMPRADORES  = "COMPRADORESENTRADA.CSV";
-    private static final String ARQ_TECNOLOGIAS  = "TECNOLOGIASENTRADA.CSV";
-    private static final String ARQ_VENDAS       = "VENDASENTRADA.CSV";
+    // Nomes dos arquivos de ENTRADA exatamente como no Apêndice
+    private final String ARQ_PARTICIPANTES = "PARTICIPANTESENTRADA.CSV";
+    private final String ARQ_TECNOLOGIAS   = "TECNOLOGIASENTRADA.CSV";
+    private final String ARQ_VENDAS        = "VENDASENTRADA.CSV";
 
     public ACMETech() {
         catalogoFor = new CatalogoFornecedores();
@@ -29,13 +28,19 @@ public class ACMETech {
     }
 
     /**
-     * Lê arquivos de ENTRADA (definidos no Apêndice do enunciado)
-     * e usa UMA FILA para armazenar as vendas antes de cadastrá-las.
+     * Lê arquivos de ENTRADA (formatos do Apêndice) e
+     * usa UMA FILA para armazenar as vendas antes de cadastrá-las.
      */
     public void inicializar() {
+
+        // Garante que começa tudo limpo
+        catalogoFor.limpar();
+        catalogoTec.limpar();
+        catalogoCom.limpar();
+        catalogoVen.limpar();
+
         try {
-            carregarFornecedoresEntrada(ARQ_FORNECEDORES);
-            carregarCompradoresEntrada(ARQ_COMPRADORES);
+            carregarParticipantesEntrada(ARQ_PARTICIPANTES);
             carregarTecnologiasEntrada(ARQ_TECNOLOGIAS);
             carregarVendasEntradaComFila(ARQ_VENDAS);
         } catch (IOException e) {
@@ -44,132 +49,171 @@ public class ACMETech {
     }
 
     public void executar() {
-        // Se existisse interface de texto, o loop iria aqui.
-        // Como você usa Swing, o "main" pode criar um ACMETech,
-        // chamar inicializar() e depois abrir a tela inicial, se quiser.
+        // Se fosse interface de texto, o laço do menu iria aqui.
+        // No teu caso, o main pode:
+        // 1) criar ACMETech
+        // 2) chamar inicializar()
+        // 3) abrir a TelaInicio / AplicacaoMenu usando os catálogos, se quiser.
     }
 
-    // Getters – se quiser usar esses catálogos na GUI em vez de criar novos
+    // Getters – caso queira integrar os catálogos com a GUI
     public CatalogoFornecedores getCatalogoFornecedores() { return catalogoFor; }
     public CatalogoTecnologias  getCatalogoTecnologias()  { return catalogoTec; }
     public CatalogoCompradores  getCatalogoCompradores()  { return catalogoCom; }
     public CatalogoVendas       getCatalogoVendas()       { return catalogoVen; }
 
     // =========================================================
-    //      LEITURA DOS ARQUIVOS DE ENTRADA (SEM FILA AINDA)
+    //      1) PARTICIPANTESENTRADA.CSV
     // =========================================================
-
-    /**
-     * Formato sugerido (ajuste se o Apêndice tiver outro):
-     * cod;nome;fundacao;area
-     */
-    private void carregarFornecedoresEntrada(String nomeArquivo) throws IOException {
+    //
+    // Formato (do PDF):
+    // cod;nome;tipo;fundacao_pais;area_email
+    //
+    // tipo = 1 → fornecedor:
+    //   fundacao_pais = data fundação (dd/MM/yyyy)
+    //   area_email    = área (TI, ANDROIDES, EMERGENTE, ALIMENTOS)
+    //
+    // tipo = 2 → comprador:
+    //   fundacao_pais = país
+    //   area_email    = e-mail
+    //
+    private void carregarParticipantesEntrada(String nomeArquivo) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
-            String linha = br.readLine(); // cabeçalho, se existir
+
+            String linha = br.readLine(); // cabeçalho: cod;nome;tipo;fundacao_pais;area_email
 
             while ((linha = br.readLine()) != null) {
-                if (linha.trim().isEmpty()) continue;
+                if (linha.trim().isEmpty()) {
+                    continue;
+                }
 
                 String[] partes = linha.split(";");
-                if (partes.length < 4) continue;
+                if (partes.length < 5) {
+                    continue; // linha incompleta
+                }
 
-                String codStr   = partes[0].trim();
-                String nome     = partes[1].trim();
-                String fundacao = partes[2].trim();
-                String area     = partes[3].trim();
+                String codStr = partes[0].trim();
+                String nome   = partes[1].trim();
+                String tipoStr= partes[2].trim();
+                String c4     = partes[3].trim(); // fundacao_pais
+                String c5     = partes[4].trim(); // area_email
 
-                // Reaproveita validação do catálogo:
-                catalogoFor.cadastrarFornecedor(codStr, nome, fundacao, area);
+                long cod;
+                int tipo;
+                try {
+                    cod  = Long.parseLong(codStr);
+                    tipo = Integer.parseInt(tipoStr);
+                } catch (NumberFormatException e) {
+                    // Linha mal-formada, ignora
+                    continue;
+                }
+
+                if (tipo == 1) {
+                    // FORNECEDOR
+                    // reaproveita validação do catálogo (data, área, etc.)
+                    catalogoFor.cadastrarFornecedor(codStr, nome, c4, c5);
+
+                } else if (tipo == 2) {
+                    // COMPRADOR
+                    String pais  = c4;
+                    String email = c5;
+                    Comprador c = new Comprador(cod, nome, pais, email);
+                    catalogoCom.cadastrar(c);
+                } else {
+                    // tipo desconhecido → ignora
+                    continue;
+                }
             }
         }
     }
 
-    /**
-     * Formato sugerido:
-     * cod;nome;pais;email
-     */
-    private void carregarCompradoresEntrada(String nomeArquivo) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
-            String linha = br.readLine(); // cabeçalho, se existir
-
-            while ((linha = br.readLine()) != null) {
-                if (linha.trim().isEmpty()) continue;
-
-                String[] partes = linha.split(";");
-                if (partes.length < 4) continue;
-
-                long cod    = Long.parseLong(partes[0].trim());
-                String nome = partes[1].trim();
-                String pais = partes[2].trim();
-                String email= partes[3].trim();
-
-                Comprador c = new Comprador(cod, nome, pais, email);
-                catalogoCom.cadastrar(c);
-            }
-        }
-    }
-
-    /**
-     * Formato sugerido:
-     * id;modelo;descricao;valorBase;peso;temperatura;codFornecedor
-     */
+    // =========================================================
+    //      2) TECNOLOGIASENTRADA.CSV
+    // =========================================================
+    //
+    // Formato (do PDF):
+    // id;modelo;descricao;valorBase;peso;temperatura;fornecedor
+    //
     private void carregarTecnologiasEntrada(String nomeArquivo) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
-            String linha = br.readLine(); // cabeçalho, se existir
+            String linha = br.readLine(); // cabeçalho: id;modelo;...
 
             while ((linha = br.readLine()) != null) {
-                if (linha.trim().isEmpty()) continue;
+                if (linha.trim().isEmpty()) {
+                    continue;
+                }
 
                 String[] partes = linha.split(";");
-                if (partes.length < 7) continue;
+                if (partes.length < 7) {
+                    continue;
+                }
 
-                long id       = Long.parseLong(partes[0].trim());
-                String modelo = partes[1].trim();
-                String desc   = partes[2].trim();
-                double valor  = Double.parseDouble(partes[3].trim());
-                double peso   = Double.parseDouble(partes[4].trim());
-                double temp   = Double.parseDouble(partes[5].trim());
-                long codFor   = Long.parseLong(partes[6].trim());
+                try {
+                    long   id       = Long.parseLong(partes[0].trim());
+                    String modelo   = partes[1].trim();
+                    String desc     = partes[2].trim();
+                    double valor    = Double.parseDouble(partes[3].trim());
+                    double peso     = Double.parseDouble(partes[4].trim());
+                    double temp     = Double.parseDouble(partes[5].trim());
+                    long   codFor   = Long.parseLong(partes[6].trim());
 
-                Fornecedor f = catalogoFor.buscarFornecedor(codFor);
-                Tecnologia t = new Tecnologia(id, modelo, desc, peso, valor, temp, f);
-                catalogoTec.cadastrarTecnologia(t);
+                    Fornecedor f = catalogoFor.buscarFornecedor(codFor);
+                    Tecnologia t = new Tecnologia(id, modelo, desc, peso, valor, temp, f);
+                    catalogoTec.cadastrarTecnologia(t);
+
+                } catch (NumberFormatException e) {
+                    // linha com número inválido → ignora
+                    continue;
+                }
             }
         }
     }
 
     // =========================================================
-    //      AQUI ENTRA A FILA (REQUISITO DO PDF)
+    //      3) VENDASENTRADA.CSV + FILA
     // =========================================================
-
-    /**
-     * Formato sugerido:
-     * num;data;idTecnologia;codComprador
-     *
-     * 1) Lê todas as vendas e põe em uma FILA (Queue<VendaEntrada>)
-     * 2) Depois que o arquivo termina, processa a fila cadastrando
-     *    cada venda com CatalogoVendas.cadastrarVenda(...)
-     */
+    //
+    // Formato (do PDF):
+    // num;data;cod;id
+    //
+    //  - num  = número da venda
+    //  - data = dd/MM/yyyy
+    //  - cod  = código do comprador
+    //  - id   = identificador da tecnologia
+    //
+    // 1) Lê TODAS as vendas e coloca em uma FILA (Queue<VendaEntrada>)
+    // 2) Depois processa a fila usando CatalogoVendas.cadastrarVenda(...)
+    //
     private void carregarVendasEntradaComFila(String nomeArquivo) throws IOException {
         Queue<VendaEntrada> fila = new LinkedList<>();
 
         // 1) Ler arquivo e ENFILEIRAR as vendas
         try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
-            String linha = br.readLine(); // cabeçalho, se existir
+            String linha = br.readLine(); // cabeçalho: num;data;cod;id
 
             while ((linha = br.readLine()) != null) {
-                if (linha.trim().isEmpty()) continue;
+                if (linha.trim().isEmpty()) {
+                    continue;
+                }
 
                 String[] partes = linha.split(";");
-                if (partes.length < 4) continue;
+                if (partes.length < 4) {
+                    continue;
+                }
 
                 VendaEntrada ve = new VendaEntrada();
-                ve.numTexto     = partes[0].trim();
-                ve.dataTexto    = partes[1].trim();
-                ve.idTecnologia = Long.parseLong(partes[2].trim());
-                ve.codComprador = Long.parseLong(partes[3].trim());
+                ve.numTexto     = partes[0].trim();  // num
+                ve.dataTexto    = partes[1].trim();  // data
+                // ATENÇÃO: no PDF, 3ª coluna é cod (comprador) e 4ª é id (tecnologia)
+                try {
+                    ve.codComprador = Long.parseLong(partes[2].trim()); // cod
+                    ve.idTecnologia = Long.parseLong(partes[3].trim()); // id
+                } catch (NumberFormatException e) {
+                    // linha inválida → ignora
+                    continue;
+                }
 
-                fila.add(ve);   // >>> AQUI VAI PRA FILA <<<
+                fila.add(ve);   // >>> vai para a FILA (requisito do trabalho) <<<
             }
         }
 
@@ -185,12 +229,12 @@ public class ACMETech {
                 continue;
             }
 
-            // Usa TODA a lógica já pronta do catálogo (regras, desconto, qtdVendas etc)
+            // Usa TODA a lógica já pronta do catálogo (regras, desconto, qtdVendas, etc.)
             catalogoVen.cadastrarVenda(ve.numTexto, ve.dataTexto, tec, com);
         }
     }
 
-    // Classezinha interna só pra guardar temporariamente as vendas lidas
+    // Classe interna só pra guardar temporariamente os dados que vão para a fila
     private static class VendaEntrada {
         String numTexto;
         String dataTexto;

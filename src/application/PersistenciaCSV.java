@@ -9,15 +9,20 @@ import java.util.Date;
 
 public class PersistenciaCSV {
 
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy");
+    private final SimpleDateFormat sdf;
+
+    public PersistenciaCSV() {
+        this.sdf = new SimpleDateFormat("dd/MM/yyyy");
+        this.sdf.setLenient(false);
+    }
 
     // ========= MÉTODOS PÚBLICOS PRINCIPAIS =========
 
-    public static void salvarTudoCSV(String nomeBase,
-                                     CatalogoFornecedores catalogoFor,
-                                     CatalogoTecnologias catalogoTec,
-                                     CatalogoCompradores catalogoCom,
-                                     CatalogoVendas catalogoVen) throws IOException {
+    public void salvarTudoCSV(String nomeBase,
+                              CatalogoFornecedores catalogoFor,
+                              CatalogoTecnologias catalogoTec,
+                              CatalogoCompradores catalogoCom,
+                              CatalogoVendas catalogoVen) throws IOException {
 
         salvarFornecedoresCSV(nomeBase + "_fornecedores.csv", catalogoFor);
         salvarTecnologiasCSV(nomeBase + "_tecnologias.csv", catalogoTec);
@@ -25,11 +30,11 @@ public class PersistenciaCSV {
         salvarVendasCSV(nomeBase + "_vendas.csv", catalogoVen);
     }
 
-    public static void carregarTudoCSV(String nomeBase,
-                                       CatalogoFornecedores catalogoFor,
-                                       CatalogoTecnologias catalogoTec,
-                                       CatalogoCompradores catalogoCom,
-                                       CatalogoVendas catalogoVen) throws IOException {
+    public void carregarTudoCSV(String nomeBase,
+                                CatalogoFornecedores catalogoFor,
+                                CatalogoTecnologias catalogoTec,
+                                CatalogoCompradores catalogoCom,
+                                CatalogoVendas catalogoVen) throws IOException {
 
         carregarFornecedoresCSV(nomeBase + "_fornecedores.csv", catalogoFor);
         carregarTecnologiasCSV(nomeBase + "_tecnologias.csv", catalogoTec, catalogoFor);
@@ -39,12 +44,12 @@ public class PersistenciaCSV {
 
     // ========= SALVAR =========
 
-    private static void salvarFornecedoresCSV(String nomeArquivo,
-                                              CatalogoFornecedores catalogoFor) throws IOException {
+    private void salvarFornecedoresCSV(String nomeArquivo,
+                                       CatalogoFornecedores catalogoFor) throws IOException {
         try (PrintWriter out = new PrintWriter(new FileWriter(nomeArquivo))) {
             out.println("cod;nome;fundacao;area");
             for (Fornecedor f : catalogoFor.getTodosFornecedores()) {
-                String dataStr = f.getFundacao() != null ? SDF.format(f.getFundacao()) : "";
+                String dataStr = f.getFundacao() != null ? sdf.format(f.getFundacao()) : "";
                 String areaStr = (f.getArea() != null) ? f.getArea().name() : "";
                 out.printf("%d;%s;%s;%s%n",
                         f.getCod(),
@@ -56,8 +61,8 @@ public class PersistenciaCSV {
         }
     }
 
-    private static void salvarTecnologiasCSV(String nomeArquivo,
-                                             CatalogoTecnologias catalogoTec) throws IOException {
+    private void salvarTecnologiasCSV(String nomeArquivo,
+                                      CatalogoTecnologias catalogoTec) throws IOException {
         try (PrintWriter out = new PrintWriter(new FileWriter(nomeArquivo))) {
             out.println("id;modelo;descricao;valorBase;peso;temperatura;codFornecedor");
             for (Tecnologia t : catalogoTec.getLista()) {
@@ -75,23 +80,22 @@ public class PersistenciaCSV {
         }
     }
 
-    private static void salvarCompradoresCSV(String nomeArquivo,
-                                             CatalogoCompradores catalogoCom) throws IOException {
+    private void salvarCompradoresCSV(String nomeArquivo,
+                                      CatalogoCompradores catalogoCom) throws IOException {
         try (PrintWriter out = new PrintWriter(new FileWriter(nomeArquivo))) {
             out.println("cod;nome;pais;email");
             for (Comprador c : catalogoCom.getTodosCompradores()) {
-                // geraDescricao() já retorna cod;nome;pais;email
-                out.println(c.geraDescricao());
+                out.println(c.geraDescricao()); // já vem cod;nome;pais;email
             }
         }
     }
 
-    private static void salvarVendasCSV(String nomeArquivo,
-                                        CatalogoVendas catalogoVen) throws IOException {
+    private void salvarVendasCSV(String nomeArquivo,
+                                 CatalogoVendas catalogoVen) throws IOException {
         try (PrintWriter out = new PrintWriter(new FileWriter(nomeArquivo))) {
             out.println("num;data;idTecnologia;codComprador");
             for (Venda v : catalogoVen.getLista()) {
-                String dataStr = SDF.format(v.getData());
+                String dataStr = sdf.format(v.getData());
                 long idTec = (v.getTecnologia() != null) ? v.getTecnologia().getId() : 0;
                 long codCom = (v.getComprador() != null) ? v.getComprador().getCod() : 0;
                 out.printf("%d;%s;%d;%d%n",
@@ -106,8 +110,8 @@ public class PersistenciaCSV {
 
     // ========= CARREGAR =========
 
-    private static void carregarFornecedoresCSV(String nomeArquivo,
-                                                CatalogoFornecedores catalogoFor)
+    private void carregarFornecedoresCSV(String nomeArquivo,
+                                         CatalogoFornecedores catalogoFor)
             throws IOException {
 
         catalogoFor.limpar();
@@ -126,15 +130,14 @@ public class PersistenciaCSV {
                 String dataStr = partes[2];
                 String areaStr = partes[3];
 
-                // reaproveita a validação do próprio catálogo
                 catalogoFor.cadastrarFornecedor(codStr, nome, dataStr, areaStr);
             }
         }
     }
 
-    private static void carregarTecnologiasCSV(String nomeArquivo,
-                                               CatalogoTecnologias catalogoTec,
-                                               CatalogoFornecedores catalogoFor)
+    private void carregarTecnologiasCSV(String nomeArquivo,
+                                        CatalogoTecnologias catalogoTec,
+                                        CatalogoFornecedores catalogoFor)
             throws IOException {
 
         catalogoTec.limpar();
@@ -165,8 +168,8 @@ public class PersistenciaCSV {
         }
     }
 
-    private static void carregarCompradoresCSV(String nomeArquivo,
-                                               CatalogoCompradores catalogoCom)
+    private void carregarCompradoresCSV(String nomeArquivo,
+                                        CatalogoCompradores catalogoCom)
             throws IOException {
 
         catalogoCom.limpar();
@@ -193,10 +196,10 @@ public class PersistenciaCSV {
         }
     }
 
-    private static void carregarVendasCSV(String nomeArquivo,
-                                          CatalogoVendas catalogoVen,
-                                          CatalogoTecnologias catalogoTec,
-                                          CatalogoCompradores catalogoCom)
+    private void carregarVendasCSV(String nomeArquivo,
+                                   CatalogoVendas catalogoVen,
+                                   CatalogoTecnologias catalogoTec,
+                                   CatalogoCompradores catalogoCom)
             throws IOException {
 
         catalogoVen.limpar();
@@ -215,7 +218,7 @@ public class PersistenciaCSV {
                 long idTec = Long.parseLong(partes[2]);
                 long codCom = Long.parseLong(partes[3]);
 
-                Date data = SDF.parse(dataStr);
+                Date data = sdf.parse(dataStr);
                 Tecnologia tec = catalogoTec.buscarPorId(idTec);
                 Comprador com = catalogoCom.buscarPorCodigo(codCom);
 
