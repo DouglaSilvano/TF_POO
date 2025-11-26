@@ -1,9 +1,9 @@
 package interfaceGrafica;
 
-import entities.*;
-import application.PersistenciaCSV;
-import application.PersistenciaJSON;
-import application.ACMETech;
+import entidades.*;
+import aplicacao.PersistenciaCSV;
+import aplicacao.PersistenciaJSON;
+import aplicacao.ACMETech;
 
 import javax.swing.*;
 import java.awt.*;

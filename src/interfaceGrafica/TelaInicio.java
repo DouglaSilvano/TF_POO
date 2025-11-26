@@ -2,7 +2,7 @@ package interfaceGrafica;
 
 import javax.swing.*;
 import java.awt.*;
-import application.ACMETech;
+import aplicacao.ACMETech;
 
 public class TelaInicio extends JFrame {
 

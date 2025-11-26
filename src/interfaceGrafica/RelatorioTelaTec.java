@@ -1,6 +1,6 @@
 package interfaceGrafica;
 
-import entities.CatalogoTecnologias;
+import entidades.CatalogoTecnologias;
 
 import javax.swing.*;
 import java.awt.*;

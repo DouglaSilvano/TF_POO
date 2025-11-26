@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.JTextArea;
 
-import entities.*;
+import entidades.*;
 
 public class TelaTecnologia {
     private JPanel painel;

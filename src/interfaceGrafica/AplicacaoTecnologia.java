@@ -1,7 +1,7 @@
 package interfaceGrafica;
 
-import entities.CatalogoFornecedores;
-import entities.CatalogoTecnologias;
+import entidades.CatalogoFornecedores;
+import entidades.CatalogoTecnologias;
 
 import javax.swing.*;
 

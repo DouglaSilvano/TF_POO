@@ -1,7 +1,7 @@
 package interfaceGrafica;
 
-import entities.CatalogoCompradores;
-import entities.Comprador;
+import entidades.CatalogoCompradores;
+import entidades.Comprador;
 
 import javax.swing.*;
 import java.awt.*;

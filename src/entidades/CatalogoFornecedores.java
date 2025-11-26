@@ -1,4 +1,4 @@
-package entities;
+package entidades;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -80,7 +80,7 @@ public class CatalogoFornecedores {
                     .append("Nome: ").append(f.getNome()).append("\n")
                     .append("Fundação: ").append(fund).append("\n")
                     .append("Área: ").append(f.getArea() != null ? f.getArea().name() : "N/A").append("\n")
-                    .append("");
+                    .append("--------------------------------------\n");
         }
         return sb.toString();
     }
@@ -124,5 +124,19 @@ public class CatalogoFornecedores {
 
     public void limpar() {
         listaFornecedores.clear();
+    }
+
+    @Override
+    public String toString() {
+        if (listaFornecedores.isEmpty()) {
+            return "Nenhum fornecedor cadastrado ainda :(";
+        }
+
+        String s = "Dados dos fornecedores cadastrados:\n";
+        for (Fornecedor f : listaFornecedores) {
+            s += f.geraDescricao();
+            s += "--------------------------------------\n";
+        }
+        return s;
     }
 }

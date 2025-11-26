@@ -1,6 +1,4 @@
-package entities;
-
-import entities.Participante;
+package entidades;
 
 public class Comprador extends Participante {
 
@@ -50,7 +48,11 @@ public class Comprador extends Participante {
 
     @Override
     public String toString() {
-        return super.toString() + ", País: " + pais + ", Email: " + email;
+//        return super.toString() + ", País: " + pais + ", Email: " + email;
+        return  "Código = " + getCod() + "\n" +
+                "Nome = " + getNome() + "\n" +
+                "Pais = " + this.pais + "\n" +
+                "Email = " + this.email + "\n";
     }
 }
 

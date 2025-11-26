@@ -1,6 +1,6 @@
 package interfaceGrafica;
 
-import entities.*;
+import entidades.*;
 
 import javax.swing.*;
 import java.awt.*;
