@@ -6,12 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Queue;
-// ===== IMPORTS PARA LIST =====
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class ACMETech {
 
@@ -20,7 +15,6 @@ public class ACMETech {
     private CatalogoCompradores catalogoCom;
     private CatalogoVendas catalogoVen;
     private final String PASTA_RECURSOS = "RECURSOS" + File.separator;
-    // Nomes dos arquivos de ENTRADA exatamente como no Apêndice
     private final String ARQ_PARTICIPANTES = PASTA_RECURSOS + "PARTICIPANTESENTRADA.CSV";
     private final String ARQ_TECNOLOGIAS   = PASTA_RECURSOS + "TECNOLOGIASENTRADA.CSV";
     private final String ARQ_VENDAS        = PASTA_RECURSOS + "VENDASENTRADA.CSV";
@@ -30,6 +24,7 @@ public class ACMETech {
         catalogoTec = new CatalogoTecnologias();
         catalogoCom = new CatalogoCompradores();
         catalogoVen = new CatalogoVendas();
+        Locale.setDefault(Locale.US);
     }
 
     public void inicializar() {
@@ -54,18 +49,16 @@ public class ACMETech {
     public CatalogoCompradores  getCatalogoCompradores()  { return catalogoCom; }
     public CatalogoVendas       getCatalogoVendas()       { return catalogoVen; }
 
-    // ================= PARTICIPANTES =================
     private void carregarParticipantesEntrada(String nomeArquivo) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
 
-            String linha = br.readLine(); // cabeçalho
+            String linha = br.readLine();
 
             while ((linha = br.readLine()) != null) {
                 if (linha.trim().isEmpty()) {
                     continue;
                 }
 
-                // ===== LIST EM VEZ DE ARRAY =====
                 List<String> partes = new ArrayList<>(Arrays.asList(linha.split(";")));
                 if (partes.size() < 5) {
                     continue;
@@ -100,7 +93,6 @@ public class ACMETech {
         }
     }
 
-    // ================= TECNOLOGIAS =================
     private void carregarTecnologiasEntrada(String nomeArquivo) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
             String linha = br.readLine(); // cabeçalho
@@ -110,7 +102,6 @@ public class ACMETech {
                     continue;
                 }
 
-                // ===== LIST EM VEZ DE ARRAY =====
                 List<String> partes = new ArrayList<>(Arrays.asList(linha.split(";")));
                 if (partes.size() < 7) {
                     continue;
@@ -136,7 +127,6 @@ public class ACMETech {
         }
     }
 
-    // ================= VENDAS + FILA =================
     private void carregarVendasEntradaComFila(String nomeArquivo) throws IOException {
         Queue<VendaEntrada> fila = new LinkedList<>();
 
@@ -148,7 +138,6 @@ public class ACMETech {
                     continue;
                 }
 
-                // ===== LIST EM VEZ DE ARRAY =====
                 List<String> partes = new ArrayList<>(Arrays.asList(linha.split(";")));
                 if (partes.size() < 4) {
                     continue;

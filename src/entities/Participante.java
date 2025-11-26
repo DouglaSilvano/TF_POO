@@ -1,8 +1,6 @@
 package entities;
 
-import java.io.Serializable;
-
-public abstract class Participante implements Serializable {
+public abstract class Participante {
 
     private long cod;
     private String nome;
