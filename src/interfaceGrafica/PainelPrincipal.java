@@ -26,7 +26,7 @@ public class PainelPrincipal {
     private JButton botaoCarregarCSV;
     private JButton botaoSalvarJSON;
     private JButton botaoCarregarJSON;
-
+    private JButton botaoRemoverVenda;
     private PersistenciaCSV persistenciaCSV = new PersistenciaCSV();
     private PersistenciaJSON persistenciaJSON = new PersistenciaJSON();
 
@@ -61,6 +61,7 @@ public class PainelPrincipal {
         botaoCarregarCSV.addActionListener(e -> carregarDadosCSV());
         botaoCarregarJSON.addActionListener(e -> carregarDadosJSON());
         botaoSalvarJSON.addActionListener(e -> salvarDadosJSON());
+        botaoRemoverVenda.addActionListener(e -> abrirTelaRemoverVenda());
     }
 
     // Construtor usado quando você quer reaproveitar os catálogos do ACMETech
@@ -364,6 +365,12 @@ public class PainelPrincipal {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(painelMenu, "Erro ao carregar JSON: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    private void abrirTelaRemoverVenda() {
+        abrirJanelaPadrao(
+                "Remover Venda",
+                new TelaRemoverVenda(catalogoVen).getPainel()
+        );
     }
 
     // ===================== PADRONIZAÇÃO DAS JANELAS =====================
