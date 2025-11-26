@@ -6,10 +6,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class PersistenciaJSON {
 
@@ -306,10 +303,12 @@ public class PersistenciaJSON {
 
         arraySemColchetes = arraySemColchetes.trim();
         if (arraySemColchetes.isEmpty()) {
-            return lista;
+            return lista; // lista vazia
         }
-        //MODIFICAR AQUI TIRAR ESSA ARRAY
-        String[] partes = arraySemColchetes.split("\\}\\s*,\\s*\\{");
+
+        List<String> partes = new ArrayList<>(
+                Arrays.asList(arraySemColchetes.split("\\}\\s*,\\s*\\{"))
+        );
 
         for (String parte : partes) {
             String p = parte.trim();
@@ -323,6 +322,7 @@ public class PersistenciaJSON {
         }
         return lista;
     }
+
 
     private String extrairCampo(String objJson, String campo) {
         String chave = "\"" + campo + "\"";
