@@ -91,21 +91,25 @@ public class CatalogoVendas {
     }
 
     public ArrayList<Venda> consultarVendaMaior() {
-        ArrayList<Venda> retornar = new ArrayList();
-        if(listaVendas.isEmpty()){
+        ArrayList<Venda> retornar = new ArrayList<>();
+        if (listaVendas.isEmpty()) {
             return retornar;
         }
+
         Venda maior = listaVendas.getFirst();
-        for(Venda v: listaVendas){
-            if(maior.getValorFinal()> v.getValorFinal()){
+
+        for (Venda v : listaVendas) {
+            if (v.getValorFinal() > maior.getValorFinal()) {
                 maior = v;
             }
         }
-        for(Venda v: listaVendas){
-            if(maior.getValorFinal()== v.getValorFinal()){
+
+        for (Venda v : listaVendas) {
+            if (v.getValorFinal() == maior.getValorFinal()) {
                 retornar.add(v);
             }
         }
+
         return retornar;
     }
 
