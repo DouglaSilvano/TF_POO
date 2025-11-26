@@ -1,9 +1,0 @@
-id;modelo;descricao;valorBase;peso;temperatura;codFornecedor
-101;100 T Anvil;Bigorna de 100 toneladas;101.01;100.10;2000.20;4
-202;FR armor;Armadura resistente a fogo;202.02;200.20;6000.60;5
-303;Jericho;Missil anti-missil;303.03;300.30;3000.30;1
-444;Bird trap;Armadilha para passaros;444.44;404.40;400.40;4
-555;Shark repellent;Repelente de tubarao;555.55;505.50;50.50;5
-5001;Chip Neural A1;Processador de IA avançado;1500.00;0.05;45.50;101
-5002;Drone Semeador X;Drone autônomo para plantio;8500.00;12.50;30.00;102
-5003;Braço Mecânico V2;Auxiliar de montagem industrial;12000.00;80.00;60.00;103

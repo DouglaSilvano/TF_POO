@@ -55,7 +55,7 @@ public class PainelPrincipal {
         botaoRelatorioTec.addActionListener(e -> abrirRelatorioTec());
         botaoRelatorioCom.addActionListener(e -> abrirRelatorioCom());
         botaoAlterarCom.addActionListener(e -> abrirTelaAlterarCom(catalogoCom));
-        easterEggButton.addActionListener(e -> adicionarDadosAutomaticamente(catalogoVen, catalogoFor, catalogoTec, catalogoCom));
+//        easterEggButton.addActionListener(e -> adicionarDadosAutomaticamente(catalogoVen, catalogoFor, catalogoTec, catalogoCom));
         consultarMaiorButton.addActionListener(e -> consultarMaior(catalogoVen, catalogoFor, catalogoCom, catalogoTec));
         botaoSalvarCSV.addActionListener(e -> salvarDadosCSV());
         botaoCarregarCSV.addActionListener(e -> carregarDadosCSV());
