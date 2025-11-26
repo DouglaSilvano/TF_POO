@@ -1,29 +1,36 @@
 package entities;
 
-import entities.Comprador;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CatalogoCompradores {
 
-    private Map<Long, Comprador> compradores;
+    // Agora é só List, nada de Map/TreeMap
+    private List<Comprador> compradores;
 
     public CatalogoCompradores() {
-        compradores = new TreeMap<>();
+        compradores = new ArrayList<>();
     }
 
     public boolean cadastrar(Comprador novoComprador) {
-        if (compradores.containsKey(novoComprador.getCod())) {
+        // Garante que não tem código repetido
+        if (buscarPorCodigo(novoComprador.getCod()) != null) {
             return false;
         }
 
-        compradores.put(novoComprador.getCod(), novoComprador);
+        compradores.add(novoComprador);
+
+        // Mantém em ordem de código (como o TreeMap fazia antes)
+        compradores.sort((c1, c2) -> Long.compare(c1.getCod(), c2.getCod()));
+
         return true;
     }
 
-    public Collection<Comprador> getTodosCompradores() {
-
-        return compradores.values();
+    // Antes: Collection<Comprador>
+    // Agora: List<Comprador>
+    public List<Comprador> getTodosCompradores() {
+        // Devolve uma cópia para não expor a lista interna diretamente
+        return new ArrayList<>(compradores);
     }
 
     public String listarCompradores() {
@@ -34,7 +41,7 @@ public class CatalogoCompradores {
         StringBuilder sb = new StringBuilder();
         sb.append("Lista de compradores (ordem por código):\n");
 
-        for (Comprador c : compradores.values()) {
+        for (Comprador c : compradores) {
             sb.append(c.geraDescricao()).append("\n");
         }
 
@@ -42,11 +49,13 @@ public class CatalogoCompradores {
     }
 
     public List<Comprador> getLista() {
-        return new ArrayList<>(compradores.values());
+        // Se você quiser devolver a lista “real”, poderia retornar `compradores` direto,
+        // mas mantive o padrão de devolver cópia, igual ao getTodosCompradores.
+        return new ArrayList<>(compradores);
     }
 
     public Comprador buscarPorNome(String nome) {
-        for (Comprador c : compradores.values()) {
+        for (Comprador c : compradores) {
             if (c.getNome().equalsIgnoreCase(nome)) {
                 return c;
             }
@@ -55,11 +64,17 @@ public class CatalogoCompradores {
     }
 
     public Comprador buscarPorCodigo(Long codigo) {
-        return compradores.get(codigo);
+        if (codigo == null) return null;
+        for (Comprador c : compradores) {
+            if (c.getCod() == codigo) {
+                return c;
+            }
+        }
+        return null;
     }
 
     public boolean atualizarComprador(long cod, String novoNome, String novoPais, String novoEmail) {
-        Comprador c = compradores.get(cod);
+        Comprador c = buscarPorCodigo(cod);
         if (c == null) {
             return false;
         }
@@ -69,27 +84,32 @@ public class CatalogoCompradores {
         c.setEmail(novoEmail);
 
         return true;
-
     }
-    public ArrayList<Comprador> consultarMaiorCom(CatalogoCompradores com){
-        ArrayList<Comprador> retornar = new ArrayList();
-        List<Comprador> listaCom= com.getLista();
-        if(listaCom.isEmpty()){
+
+    public ArrayList<Comprador> consultarMaiorCom(CatalogoCompradores com) {
+        ArrayList<Comprador> retornar = new ArrayList<>();
+        List<Comprador> listaCom = com.getLista();
+
+        if (listaCom.isEmpty()) {
             return retornar;
         }
+
         int maiorQtdVendas = listaCom.get(0).getQtdVendas();
-        for(Comprador c :listaCom){
-            if(c.getQtdVendas()>maiorQtdVendas){
-                maiorQtdVendas=c.getQtdVendas();
+
+        // Descobre a maior quantidade de vendas
+        for (Comprador c : listaCom) {
+            if (c.getQtdVendas() > maiorQtdVendas) {
+                maiorQtdVendas = c.getQtdVendas();
             }
         }
-        for(Comprador c :listaCom){
-            if(c.getQtdVendas()==maiorQtdVendas){
 
+        // Adiciona todos que têm essa maior quantidade (empate)
+        for (Comprador c : listaCom) {
+            if (c.getQtdVendas() == maiorQtdVendas) {
                 retornar.add(c);
             }
-
         }
+
         return retornar;
     }
 
