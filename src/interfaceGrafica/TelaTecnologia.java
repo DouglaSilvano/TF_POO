@@ -146,8 +146,14 @@ public class TelaTecnologia {
                     }
                     tecnologia.setFornecedor(f);
                 }catch (NumberFormatException x) {
-                    mensagemErro = mensagemErro + "\n" + " / Erro de fornecedor (precisa ser um número válido).";
-                    avancarContador = false;
+                    if(novoTexto.equalsIgnoreCase("null")){
+                        tecnologia.setFornecedor(null);
+                        System.out.println("ponto");
+
+                    }else {
+                        mensagemErro = mensagemErro + "\n" + " / Erro de fornecedor (precisa ser um número válido).";
+                        avancarContador = false;
+                    }
                 }catch(Exception x){
                     mensagemErro = mensagemErro + "\n" + " / Erro de fornecedor (código inexistente).";
                     avancarContador = false;
