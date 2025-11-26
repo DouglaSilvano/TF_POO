@@ -136,6 +136,21 @@ public class TelaTecnologia {
                     avancarContador = false;
                 }
                 //recebendo codigo do fornecedor
+//                try{
+//                    codigoFornecedor = Integer.parseInt(novoTexto);
+//                    f = catalogoFor.buscarFornecedor(codigoFornecedor);
+//                    if(catalogoFor.buscarFornecedor(codigoFornecedor) == null){
+//                        mensagemErro = mensagemErro + "Código de fornecedor não foi cadastrado!";
+//                        avancarContador = false;
+//                    }
+//                    tecnologia.setFornecedor(f);
+//                }catch (NumberFormatException x) {
+//                    mensagemErro = mensagemErro + "\n" + " / Erro de fornecedor (precisa ser um número válido).";
+//                    avancarContador = false;
+//                }catch(Exception x){
+//                    mensagemErro = mensagemErro + "\n" + " / Erro de fornecedor (código inexistente).";
+//                    avancarContador = false;
+//                }
                 novoTexto = textoCodFor.getText().trim();
                 try{
                     codigoFornecedor = Integer.parseInt(novoTexto);
@@ -146,8 +161,13 @@ public class TelaTecnologia {
                     }
                     tecnologia.setFornecedor(f);
                 }catch (NumberFormatException x) {
-                    mensagemErro = mensagemErro + "\n" + " / Erro de fornecedor (precisa ser um número válido).";
-                    avancarContador = false;
+                    if(novoTexto.equalsIgnoreCase("null")){
+                        tecnologia.setFornecedor(null);
+
+                    }else {
+                        mensagemErro = mensagemErro + "\n" + " / Erro de fornecedor (precisa ser um número válido).";
+                        avancarContador = false;
+                    }
                 }catch(Exception x){
                     mensagemErro = mensagemErro + "\n" + " / Erro de fornecedor (código inexistente).";
                     avancarContador = false;

@@ -97,7 +97,8 @@ public class CatalogoFornecedores {
         for(Fornecedor f : listaFornecedores){
             int contadorAtual = 0;
             for (Tecnologia t : listaDeTecnologias){
-                if(t.getFornecedor().getCod() == f.getCod()){
+                Fornecedor fornecedorTec = t.getFornecedor();
+                if(fornecedorTec != null && t.getFornecedor().getCod() == f.getCod()){
                     contadorAtual++;
                 }
 

@@ -49,9 +49,9 @@ public class TelaFornecedor {
         String mensagem = catalogo.cadastrarFornecedor(codTexto, nome, fundacaoTexto, areaTexto);
         informacaoNecessaria.setText(mensagem);
 
-        if (mensagem.startsWith("Fornecedor")) {
-            limparCampos();
-        }
+//        if (mensagem.startsWith("Fornecedor")) {
+//            limparCampos();
+//        }
     }
 
     private void mostrarDados(CatalogoFornecedores catalogo) {
