@@ -7,8 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-// ===== IMPORTS PARA LIST EM VEZ DE ARRAY =====
-
 
 public class PersistenciaCSV {
 
@@ -19,8 +17,6 @@ public class PersistenciaCSV {
         this.sdf.setLenient(false);
         Locale.setDefault(Locale.US);
     }
-
-    // ========= MÉTODOS PÚBLICOS PRINCIPAIS =========
 
     public void salvarTudoCSV(String nomeBase,
                               CatalogoFornecedores catalogoFor,
@@ -45,8 +41,6 @@ public class PersistenciaCSV {
         carregarCompradoresCSV(PASTA_RECURSOS + nomeBase + "_compradores.csv", catalogoCom);
         carregarVendasCSV(PASTA_RECURSOS + nomeBase + "_vendas.csv", catalogoVen, catalogoTec, catalogoCom);
     }
-
-    // ========= SALVAR =========
 
     private void salvarFornecedoresCSV(String nomeArquivo,
                                        CatalogoFornecedores catalogoFor) throws IOException {
@@ -116,7 +110,7 @@ public class PersistenciaCSV {
             writer.newLine();
 
             for (Comprador c : catalogoCom.getTodosCompradores()) {
-                writer.write(c.geraDescricao()); // já vem cod;nome;pais;email
+                writer.write(c.geraDescricao());
                 writer.newLine();
             }
         }
@@ -151,8 +145,6 @@ public class PersistenciaCSV {
         }
     }
 
-    // ========= CARREGAR =========
-
     private void carregarFornecedoresCSV(String nomeArquivo,
                                          CatalogoFornecedores catalogoFor) throws IOException {
 
@@ -163,14 +155,13 @@ public class PersistenciaCSV {
                         new FileInputStream(nomeArquivo),
                         StandardCharsets.UTF_8))) {
 
-            String linha = br.readLine(); // cabeçalho
+            String linha = br.readLine();
 
             while ((linha = br.readLine()) != null) {
                 if (linha.trim().isEmpty()) {
                     continue;
                 }
 
-                // ===== USANDO LIST EM VEZ DE ARRAY =====
                 List<String> partes = new ArrayList<>(Arrays.asList(linha.split(";")));
                 if (partes.size() < 4) {
                     continue;
@@ -197,14 +188,13 @@ public class PersistenciaCSV {
                         new FileInputStream(nomeArquivo),
                         StandardCharsets.UTF_8))) {
 
-            String linha = br.readLine(); // cabeçalho
+            String linha = br.readLine();
 
             while ((linha = br.readLine()) != null) {
                 if (linha.trim().isEmpty()) {
                     continue;
                 }
 
-                // ===== USANDO LIST EM VEZ DE ARRAY =====
                 List<String> partes = new ArrayList<>(Arrays.asList(linha.split(";")));
                 if (partes.size() < 7) {
                     continue;
@@ -237,14 +227,13 @@ public class PersistenciaCSV {
                         new FileInputStream(nomeArquivo),
                         StandardCharsets.UTF_8))) {
 
-            String linha = br.readLine(); // cabeçalho
+            String linha = br.readLine();
 
             while ((linha = br.readLine()) != null) {
                 if (linha.trim().isEmpty()) {
                     continue;
                 }
 
-                // ===== USANDO LIST EM VEZ DE ARRAY =====
                 List<String> partes = new ArrayList<>(Arrays.asList(linha.split(";")));
                 if (partes.size() < 4) {
                     continue;
@@ -275,14 +264,13 @@ public class PersistenciaCSV {
                         new FileInputStream(nomeArquivo),
                         StandardCharsets.UTF_8))) {
 
-            String linha = br.readLine(); // cabeçalho
+            String linha = br.readLine();
 
             while ((linha = br.readLine()) != null) {
                 if (linha.trim().isEmpty()) {
                     continue;
                 }
 
-                // ===== USANDO LIST EM VEZ DE ARRAY =====
                 List<String> partes = new ArrayList<>(Arrays.asList(linha.split(";")));
                 if (partes.size() < 4) {
                     continue;
@@ -298,7 +286,6 @@ public class PersistenciaCSV {
                 Comprador  com = catalogoCom.buscarPorCodigo(codCom);
 
                 if (tec == null || com == null) {
-                    // dado inconsistente → ignora essa venda
                     continue;
                 }
 
