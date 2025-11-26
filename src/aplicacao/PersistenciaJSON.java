@@ -22,8 +22,6 @@ public class PersistenciaJSON {
         Locale.setDefault(Locale.US);
     }
 
-    // ========= MÉTODOS PÚBLICOS PRINCIPAIS =========
-
     public void salvarTudoJSON(String nomeBase,
                                CatalogoFornecedores catalogoFor,
                                CatalogoTecnologias catalogoTec,
@@ -40,7 +38,6 @@ public class PersistenciaJSON {
             writer.write("{");
             writer.newLine();
 
-            // FORNECEDORES
             writer.write("  \"fornecedores\": [");
             writer.newLine();
 
@@ -66,7 +63,6 @@ public class PersistenciaJSON {
             writer.write("  ],");
             writer.newLine();
 
-            // TECNOLOGIAS
             writer.write("  \"tecnologias\": [");
             writer.newLine();
 
@@ -94,7 +90,6 @@ public class PersistenciaJSON {
             writer.write("  ],");
             writer.newLine();
 
-            // COMPRADORES
             writer.write("  \"compradores\": [");
             writer.newLine();
 
@@ -117,7 +112,6 @@ public class PersistenciaJSON {
             writer.write("  ],");
             writer.newLine();
 
-            // VENDAS
             writer.write("  \"vendas\": [");
             writer.newLine();
 
@@ -171,14 +165,12 @@ public class PersistenciaJSON {
 
         String json = sb.toString();
 
-        // limpa catálogos
         catalogoFor.limpar();
         catalogoTec.limpar();
         catalogoCom.limpar();
         catalogoVen.limpar();
 
         try {
-            // FORNECEDORES
             String fornecedoresArray = extrairArray(json, "fornecedores");
             if (fornecedoresArray != null) {
                 List<String> objetos = quebrarObjetos(fornecedoresArray);
@@ -193,7 +185,6 @@ public class PersistenciaJSON {
                 }
             }
 
-            // TECNOLOGIAS
             String tecArray = extrairArray(json, "tecnologias");
             if (tecArray != null) {
                 List<String> objetos = quebrarObjetos(tecArray);
@@ -222,7 +213,6 @@ public class PersistenciaJSON {
                 }
             }
 
-            // COMPRADORES
             String compArray = extrairArray(json, "compradores");
             if (compArray != null) {
                 List<String> objetos = quebrarObjetos(compArray);
@@ -240,7 +230,6 @@ public class PersistenciaJSON {
                 }
             }
 
-            // VENDAS
             String venArray = extrairArray(json, "vendas");
             if (venArray != null) {
                 List<String> objetos = quebrarObjetos(venArray);
@@ -277,8 +266,6 @@ public class PersistenciaJSON {
         }
     }
 
-    // ========= HELPERS SIMPLES DE JSON =========
-
     private String escapeJson(String s) {
         if (s == null) {
             return "";
@@ -286,7 +273,6 @@ public class PersistenciaJSON {
         return s.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
-    // extrai o conteúdo de um array JSON: "campo": [ ... ]
     private String extrairArray(String json, String campo) {
         String chave = "\"" + campo + "\"";
         int idx = json.indexOf(chave);
@@ -315,16 +301,14 @@ public class PersistenciaJSON {
         return null;
     }
 
-    // Quebra array de objetos em strings individuais, devolvendo List<String>
     private List<String> quebrarObjetos(String arraySemColchetes) {
         List<String> lista = new ArrayList<>();
 
         arraySemColchetes = arraySemColchetes.trim();
         if (arraySemColchetes.isEmpty()) {
-            return lista; // lista vazia
+            return lista;
         }
-
-        // divide no padrão "} , {", mas sem trabalhar com array de objetos do domínio
+        //MODIFICAR AQUI TIRAR ESSA ARRAY
         String[] partes = arraySemColchetes.split("\\}\\s*,\\s*\\{");
 
         for (String parte : partes) {
@@ -340,7 +324,6 @@ public class PersistenciaJSON {
         return lista;
     }
 
-    // extrai um campo string do tipo "campo":"valor"
     private String extrairCampo(String objJson, String campo) {
         String chave = "\"" + campo + "\"";
         int idx = objJson.indexOf(chave);
