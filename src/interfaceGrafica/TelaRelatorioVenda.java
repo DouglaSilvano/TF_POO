@@ -8,22 +8,20 @@ import java.awt.*;
 public class TelaRelatorioVenda {
 
     private JPanel painel;
-    private JTextArea textoArea;
-    private JButton mostrarButton;
-    private JButton fecharButton;
+    private JButton finalizarButton;
+    private JTextArea textoPos;
 
     public TelaRelatorioVenda(CatalogoVendas catalogo) {
-
         painel.setBackground(Color.PINK);
 
-        mostrarButton.addActionListener(e -> {
-            textoArea.setText(catalogo.relatorioVendas());
+        finalizarButton.addActionListener(e -> {
+            Window window = SwingUtilities.getWindowAncestor(painel);
+            if (window != null) {
+                window.dispose();
+            }
         });
 
-        fecharButton.addActionListener(e -> {
-            Window w = SwingUtilities.getWindowAncestor(painel);
-            if (w != null) w.dispose();
-        });
+        textoPos.setText(catalogo.relatorioVendas());
     }
 
     public JPanel getPainel() {

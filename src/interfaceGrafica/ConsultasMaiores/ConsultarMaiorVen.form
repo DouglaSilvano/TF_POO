@@ -34,7 +34,8 @@
           <component id="b42fa" class="javax.swing.JTextArea" binding="textoPos">
             <constraints/>
             <properties>
-              <enabled value="false"/>
+              <editable value="false"/>
+              <enabled value="true"/>
               <text value="Aqui estarão as informações sobre os dados colocados no texto digitável." noi18n="true"/>
             </properties>
           </component>

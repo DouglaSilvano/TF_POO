@@ -24,6 +24,7 @@ public class TelaAlterarComprador {
 
     public TelaAlterarComprador(CatalogoCompradores catalogo) {
         painel.setBackground(Color.PINK);
+        ajustarTamanho();
         this.catalogo = catalogo;
         this.codigoAtual = null;
 
@@ -146,6 +147,12 @@ public class TelaAlterarComprador {
         textoEmail.setEnabled(true);
     }
 
-
+    private void ajustarTamanho() {
+        Dimension d = new Dimension(300, 28); // largura, altura
+        textoNome.setPreferredSize(d);
+        textoCod.setPreferredSize(d);
+        textoPais.setPreferredSize(d);
+        textoEmail.setPreferredSize(d);
+    }
 }
 
