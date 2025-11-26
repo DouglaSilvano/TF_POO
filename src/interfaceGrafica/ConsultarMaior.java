@@ -7,6 +7,7 @@ import entities.CatalogoVendas;
 import interfaceGrafica.ConsultasMaiores.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 
@@ -21,6 +22,7 @@ public class ConsultarMaior {
                           CatalogoFornecedores catalogoFor,
                           CatalogoTecnologias catalogoTec,
                           CatalogoCompradores catalogoCom){
+        painel.setBackground(Color.PINK);
         consultarTecnologiaComMaiorButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent x){
                 JFrame f = new JFrame("Consulta maiores tecnologias");

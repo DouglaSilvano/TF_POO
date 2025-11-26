@@ -4,6 +4,7 @@ import entities.CatalogoCompradores;
 import entities.Comprador;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class TelaAlterarComprador {
 
@@ -22,6 +23,7 @@ public class TelaAlterarComprador {
     private Long codigoAtual;
 
     public TelaAlterarComprador(CatalogoCompradores catalogo) {
+        painel.setBackground(Color.PINK);
         this.catalogo = catalogo;
         this.codigoAtual = null;
 

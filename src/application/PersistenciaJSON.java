@@ -2,13 +2,7 @@ package application;
 
 import entities.*;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +11,7 @@ import java.util.Date;
 public class PersistenciaJSON {
 
     private final SimpleDateFormat sdf;
-
+    private final String PASTA_RECURSOS = "RECURSOS" + File.separator;
     public PersistenciaJSON() {
         this.sdf = new SimpleDateFormat("dd/MM/yyyy");
         this.sdf.setLenient(false);
@@ -31,7 +25,7 @@ public class PersistenciaJSON {
                                CatalogoCompradores catalogoCom,
                                CatalogoVendas catalogoVen) throws IOException {
 
-        String nomeArquivo = nomeBase + ".json";
+        String nomeArquivo = PASTA_RECURSOS + nomeBase + ".json";
 
         try (BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(
@@ -156,7 +150,7 @@ public class PersistenciaJSON {
                                  CatalogoCompradores catalogoCom,
                                  CatalogoVendas catalogoVen) throws IOException {
 
-        String nomeArquivo = nomeBase + ".json";
+        String nomeArquivo = PASTA_RECURSOS + nomeBase + ".json";
 
         StringBuilder sb = new StringBuilder();
         try (BufferedReader br = new BufferedReader(

@@ -13,7 +13,7 @@ public class RelatorioTelaTec {
     private JTextArea textoPos;
 
     public RelatorioTelaTec(CatalogoTecnologias catalogo) {
-
+        painel.setBackground(Color.PINK);
 //        mostrarDadosButton.addActionListener(e -> mostrarDados(catalogo));
         finalizarButton.addActionListener(e -> {
             Window window = SwingUtilities.getWindowAncestor(painel);

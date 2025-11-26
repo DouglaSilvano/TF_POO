@@ -3,6 +3,7 @@ package interfaceGrafica;
 import entities.*;
 import application.PersistenciaCSV;
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import application.PersistenciaJSON;
 
@@ -35,6 +36,7 @@ public class PainelPrincipal {
     }
 
     public PainelPrincipal() {
+        painelMenu.setBackground(Color.PINK);
         botaoFornecedor.addActionListener(e -> abrirTelaFornecedor(catalogoFor));
         botaoTecnologia.addActionListener(e -> abrirTelaTecnologia(catalogoTec,catalogoFor));
         botaoComprador.addActionListener(e -> abrirTelaComprador(catalogoCom));
