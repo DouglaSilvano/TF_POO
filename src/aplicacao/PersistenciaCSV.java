@@ -1,24 +1,23 @@
-package application;
+package aplicacao;
 
-import entities.*;
+import entidades.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 // ===== IMPORTS PARA LIST EM VEZ DE ARRAY =====
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class PersistenciaCSV {
 
     private final SimpleDateFormat sdf;
-    private final String PASTA_RECURSOS = "RECURSOS" + File.separator;
+    private final String PASTA_RECURSOS = "recursos" + File.separator;
     public PersistenciaCSV() {
         this.sdf = new SimpleDateFormat("dd/MM/yyyy");
         this.sdf.setLenient(false);
+        Locale.setDefault(Locale.US);
     }
 
     // ========= MÉTODOS PÚBLICOS PRINCIPAIS =========

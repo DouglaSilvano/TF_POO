@@ -1,4 +1,4 @@
-package entities;
+package entidades;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +37,20 @@ public class CatalogoCompradores {
         if (compradores.isEmpty()) {
             return "Nenhum comprador cadastrado no sistema.";
         }
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("Lista de compradores (ordem por código):\n");
+        String retorno ="Aqui estão os compradores cadastrados: \n";
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("Lista de compradores (ordem por código):\n");
+//
+//        for (Comprador c : compradores) {
+//            sb.append(c.geraDescricao()).append("\n");
+//        }
+//
+//        return sb.toString();
 
         for (Comprador c : compradores) {
-            sb.append(c.geraDescricao()).append("\n");
+            retorno = retorno + "--------------------------------------\n" + c.toString();
         }
-
-        return sb.toString();
+        return retorno;
     }
 
     public List<Comprador> getLista() {
@@ -115,5 +120,14 @@ public class CatalogoCompradores {
 
     public void limpar() {
         compradores.clear();
+    }
+
+    @Override
+    public String toString() {
+        String s = "Compradores cadastrados no ACMETech:\n";
+        for (Comprador c : compradores) {
+            s += c.toString() + "--------------------------------------\n";
+        }
+        return s;
     }
 }

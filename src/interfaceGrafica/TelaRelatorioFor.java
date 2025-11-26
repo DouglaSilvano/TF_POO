@@ -1,7 +1,7 @@
 package interfaceGrafica;
 
 import javax.swing.*;
-import entities.CatalogoFornecedores;
+import entidades.CatalogoFornecedores;
 
 import java.awt.*;
 

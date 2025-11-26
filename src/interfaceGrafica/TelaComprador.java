@@ -1,13 +1,12 @@
 package interfaceGrafica;
 
-import entities.CatalogoCompradores;
-import entities.Comprador;
+import entidades.CatalogoCompradores;
+import entidades.Comprador;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
 
 public class TelaComprador implements ActionListener {
 

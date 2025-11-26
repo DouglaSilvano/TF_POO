@@ -1,6 +1,6 @@
 package interfaceGrafica.ConsultasMaiores;
 
-import entities.*;
+import entidades.*;
 
 
 import javax.swing.*;

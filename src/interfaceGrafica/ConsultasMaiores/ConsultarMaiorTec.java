@@ -1,7 +1,7 @@
 package interfaceGrafica.ConsultasMaiores;
 
-import entities.CatalogoTecnologias;
-import entities.Tecnologia;
+import entidades.CatalogoTecnologias;
+import entidades.Tecnologia;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,14 +1,12 @@
 package interfaceGrafica.ConsultasMaiores;
 
-import entities.CatalogoFornecedores;
-import entities.CatalogoTecnologias;
-import entities.ResultadoAnalise;
-import entities.Tecnologia;
+import entidades.CatalogoFornecedores;
+import entidades.CatalogoTecnologias;
+import entidades.ResultadoAnalise;
 
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 
 //2 - Consultar fornecedor com maior número de tecnologias: mostra os dados do

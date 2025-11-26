@@ -1,6 +1,6 @@
-package application;
+package aplicacao;
 
-import entities.*;
+import entidades.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +19,7 @@ public class ACMETech {
     private CatalogoTecnologias catalogoTec;
     private CatalogoCompradores catalogoCom;
     private CatalogoVendas catalogoVen;
-    private final String PASTA_RECURSOS = "RECURSOS" + File.separator;
+    private final String PASTA_RECURSOS = "recursos" + File.separator;
     // Nomes dos arquivos de ENTRADA exatamente como no Apêndice
     private final String ARQ_PARTICIPANTES = PASTA_RECURSOS + "PARTICIPANTESENTRADA.CSV";
     private final String ARQ_TECNOLOGIAS   = PASTA_RECURSOS + "TECNOLOGIASENTRADA.CSV";

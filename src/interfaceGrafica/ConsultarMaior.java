@@ -1,9 +1,9 @@
 package interfaceGrafica;
 
-import entities.CatalogoCompradores;
-import entities.CatalogoFornecedores;
-import entities.CatalogoTecnologias;
-import entities.CatalogoVendas;
+import entidades.CatalogoCompradores;
+import entidades.CatalogoFornecedores;
+import entidades.CatalogoTecnologias;
+import entidades.CatalogoVendas;
 import interfaceGrafica.ConsultasMaiores.*;
 
 import javax.swing.*;

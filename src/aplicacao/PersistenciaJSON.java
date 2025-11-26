@@ -1,6 +1,6 @@
-package application;
+package aplicacao;
 
-import entities.*;
+import entidades.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -9,15 +9,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class PersistenciaJSON {
 
     private final SimpleDateFormat sdf;
-    private final String PASTA_RECURSOS = "RECURSOS" + File.separator;
+    private final String PASTA_RECURSOS = "recursos" + File.separator;
 
     public PersistenciaJSON() {
         this.sdf = new SimpleDateFormat("dd/MM/yyyy");
         this.sdf.setLenient(false);
+        Locale.setDefault(Locale.US);
     }
 
     // ========= MÉTODOS PÚBLICOS PRINCIPAIS =========
