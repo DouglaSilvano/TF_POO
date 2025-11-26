@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import application.PersistenciaJSON;
+import application.ACMETech;
 
 
 public class PainelPrincipal {
@@ -31,6 +32,7 @@ public class PainelPrincipal {
     CatalogoTecnologias catalogoTec = new CatalogoTecnologias();
     CatalogoCompradores catalogoCom = new CatalogoCompradores();
     CatalogoVendas catalogoVen = new CatalogoVendas();
+    private ACMETech sistema;
     public JPanel getPainel() {
         return painelMenu;
     }
@@ -52,6 +54,17 @@ public class PainelPrincipal {
         botaoCarregarCSV.addActionListener(e -> carregarDadosCSV());
         botaoCarregarJSON.addActionListener(e -> carregarDadosJSON());
         botaoSalvarJSON.addActionListener(e -> salvarDadosJSON());
+    }
+
+    public PainelPrincipal(ACMETech sistema) {
+        this();
+
+        this.sistema = sistema;
+
+        this.catalogoFor = sistema.getCatalogoFornecedores();
+        this.catalogoTec = sistema.getCatalogoTecnologias();
+        this.catalogoCom = sistema.getCatalogoCompradores();
+        this.catalogoVen = sistema.getCatalogoVendas();
     }
 
     private void abrirTelaFornecedor(CatalogoFornecedores catalogoFor) {
