@@ -106,7 +106,9 @@
         <children>
           <component id="6ca55" class="javax.swing.JTextArea" binding="textoPos">
             <constraints/>
-            <properties/>
+            <properties>
+              <editable value="false"/>
+            </properties>
           </component>
         </children>
       </scrollpane>

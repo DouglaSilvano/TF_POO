@@ -114,6 +114,7 @@
           <component id="faacc" class="javax.swing.JTextArea" binding="textoPos">
             <constraints/>
             <properties>
+              <editable value="false"/>
               <text value=""/>
             </properties>
           </component>
