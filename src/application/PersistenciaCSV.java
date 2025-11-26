@@ -7,6 +7,10 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+// ===== IMPORTS PARA LIST EM VEZ DE ARRAY =====
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PersistenciaCSV {
 
@@ -167,15 +171,16 @@ public class PersistenciaCSV {
                     continue;
                 }
 
-                String[] partes = linha.split(";");
-                if (partes.length < 4) {
+                // ===== USANDO LIST EM VEZ DE ARRAY =====
+                List<String> partes = new ArrayList<>(Arrays.asList(linha.split(";")));
+                if (partes.size() < 4) {
                     continue;
                 }
 
-                String codStr  = partes[0];
-                String nome    = partes[1];
-                String dataStr = partes[2];
-                String areaStr = partes[3];
+                String codStr  = partes.get(0);
+                String nome    = partes.get(1);
+                String dataStr = partes.get(2);
+                String areaStr = partes.get(3);
 
                 catalogoFor.cadastrarFornecedor(codStr, nome, dataStr, areaStr);
             }
@@ -200,18 +205,19 @@ public class PersistenciaCSV {
                     continue;
                 }
 
-                String[] partes = linha.split(";");
-                if (partes.length < 7) {
+                // ===== USANDO LIST EM VEZ DE ARRAY =====
+                List<String> partes = new ArrayList<>(Arrays.asList(linha.split(";")));
+                if (partes.size() < 7) {
                     continue;
                 }
 
-                long id           = Long.parseLong(partes[0]);
-                String modelo     = partes[1];
-                String descricao  = partes[2];
-                double valorBase  = Double.parseDouble(partes[3]);
-                double peso       = Double.parseDouble(partes[4]);
-                double temperatura= Double.parseDouble(partes[5]);
-                long codFor       = Long.parseLong(partes[6]);
+                long id           = Long.parseLong(partes.get(0));
+                String modelo     = partes.get(1);
+                String descricao  = partes.get(2);
+                double valorBase  = Double.parseDouble(partes.get(3));
+                double peso       = Double.parseDouble(partes.get(4));
+                double temperatura= Double.parseDouble(partes.get(5));
+                long codFor       = Long.parseLong(partes.get(6));
 
                 Fornecedor f = catalogoFor.buscarFornecedor(codFor);
                 Tecnologia t = new Tecnologia(id, modelo, descricao, peso, valorBase, temperatura, f);
@@ -239,15 +245,16 @@ public class PersistenciaCSV {
                     continue;
                 }
 
-                String[] partes = linha.split(";");
-                if (partes.length < 4) {
+                // ===== USANDO LIST EM VEZ DE ARRAY =====
+                List<String> partes = new ArrayList<>(Arrays.asList(linha.split(";")));
+                if (partes.size() < 4) {
                     continue;
                 }
 
-                long   cod   = Long.parseLong(partes[0]);
-                String nome  = partes[1];
-                String pais  = partes[2];
-                String email = partes[3];
+                long   cod   = Long.parseLong(partes.get(0));
+                String nome  = partes.get(1);
+                String pais  = partes.get(2);
+                String email = partes.get(3);
 
                 Comprador c = new Comprador(cod, nome, pais, email);
                 catalogoCom.cadastrar(c);
@@ -276,15 +283,16 @@ public class PersistenciaCSV {
                     continue;
                 }
 
-                String[] partes = linha.split(";");
-                if (partes.length < 4) {
+                // ===== USANDO LIST EM VEZ DE ARRAY =====
+                List<String> partes = new ArrayList<>(Arrays.asList(linha.split(";")));
+                if (partes.size() < 4) {
                     continue;
                 }
 
-                long   num    = Long.parseLong(partes[0]);
-                String dataStr= partes[1];
-                long   idTec  = Long.parseLong(partes[2]);
-                long   codCom = Long.parseLong(partes[3]);
+                long   num    = Long.parseLong(partes.get(0));
+                String dataStr= partes.get(1);
+                long   idTec  = Long.parseLong(partes.get(2));
+                long   codCom = Long.parseLong(partes.get(3));
 
                 Date data = sdf.parse(dataStr);
                 Tecnologia tec = catalogoTec.buscarPorId(idTec);

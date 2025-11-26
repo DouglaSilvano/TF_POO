@@ -16,22 +16,6 @@
           <text value="Aqui está o relatório dos fornecedores:"/>
         </properties>
       </component>
-      <component id="dd491" class="javax.swing.JButton" binding="mostrarDadosButton" default-binding="true">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Mostrar dados"/>
-        </properties>
-      </component>
-      <component id="b1c10" class="javax.swing.JButton" binding="finalizarButton" default-binding="true">
-        <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Finalizar"/>
-        </properties>
-      </component>
       <scrollpane id="cb69b">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -42,12 +26,21 @@
           <component id="de809" class="javax.swing.JTextArea" binding="textoPos">
             <constraints/>
             <properties>
-              <enabled value="false"/>
-              <text value="texto auqi"/>
+              <editable value="false"/>
+              <enabled value="true"/>
+              <text value="Aqui estarão as informações sobre os dados colocados no texto digitável."/>
             </properties>
           </component>
         </children>
       </scrollpane>
+      <component id="b1c10" class="javax.swing.JButton" binding="finalizarButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Finalizar"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

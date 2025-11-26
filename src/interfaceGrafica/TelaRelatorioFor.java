@@ -3,8 +3,8 @@ package interfaceGrafica;
 import javax.swing.*;
 import entities.CatalogoFornecedores;
 
-import javax.swing.*;
 import java.awt.*;
+
 public class TelaRelatorioFor {
 
     private JPanel painel;
@@ -14,18 +14,21 @@ public class TelaRelatorioFor {
 
     public TelaRelatorioFor(CatalogoFornecedores catalogo) {
         painel.setBackground(Color.PINK);
-        mostrarDadosButton.addActionListener(e -> mostrarDados(catalogo));
+
         finalizarButton.addActionListener(e -> {
             Window window = SwingUtilities.getWindowAncestor(painel);
             if (window != null) {
                 window.dispose();
             }
         });
+
+        mostrarDados(catalogo);
     }
 
     private void mostrarDados(CatalogoFornecedores catalogo) {
         textoPos.setText(catalogo.listarFornecedores());
     }
+
     public JPanel getPainel() {
         return painel;
     }

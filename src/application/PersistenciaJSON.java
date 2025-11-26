@@ -7,11 +7,14 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersistenciaJSON {
 
     private final SimpleDateFormat sdf;
     private final String PASTA_RECURSOS = "RECURSOS" + File.separator;
+
     public PersistenciaJSON() {
         this.sdf = new SimpleDateFormat("dd/MM/yyyy");
         this.sdf.setLenient(false);
@@ -176,7 +179,7 @@ public class PersistenciaJSON {
             // FORNECEDORES
             String fornecedoresArray = extrairArray(json, "fornecedores");
             if (fornecedoresArray != null) {
-                String[] objetos = quebrarObjetos(fornecedoresArray);
+                List<String> objetos = quebrarObjetos(fornecedoresArray);
                 for (String obj : objetos) {
                     String codStr = extrairCampo(obj, "cod");
                     String nome = extrairCampo(obj, "nome");
@@ -191,7 +194,7 @@ public class PersistenciaJSON {
             // TECNOLOGIAS
             String tecArray = extrairArray(json, "tecnologias");
             if (tecArray != null) {
-                String[] objetos = quebrarObjetos(tecArray);
+                List<String> objetos = quebrarObjetos(tecArray);
                 for (String obj : objetos) {
                     String idStr = extrairCampo(obj, "id");
                     String modelo = extrairCampo(obj, "modelo");
@@ -220,7 +223,7 @@ public class PersistenciaJSON {
             // COMPRADORES
             String compArray = extrairArray(json, "compradores");
             if (compArray != null) {
-                String[] objetos = quebrarObjetos(compArray);
+                List<String> objetos = quebrarObjetos(compArray);
                 for (String obj : objetos) {
                     String codStr = extrairCampo(obj, "cod");
                     String nome = extrairCampo(obj, "nome");
@@ -238,7 +241,7 @@ public class PersistenciaJSON {
             // VENDAS
             String venArray = extrairArray(json, "vendas");
             if (venArray != null) {
-                String[] objetos = quebrarObjetos(venArray);
+                List<String> objetos = quebrarObjetos(venArray);
                 for (String obj : objetos) {
                     String numStr = extrairCampo(obj, "num");
                     String dataStr = extrairCampo(obj, "data");
@@ -310,28 +313,29 @@ public class PersistenciaJSON {
         return null;
     }
 
-    // Quebra array de objetos em strings individuais
-    private String[] quebrarObjetos(String arraySemColchetes) {
+    // Quebra array de objetos em strings individuais, devolvendo List<String>
+    private List<String> quebrarObjetos(String arraySemColchetes) {
+        List<String> lista = new ArrayList<>();
+
         arraySemColchetes = arraySemColchetes.trim();
         if (arraySemColchetes.isEmpty()) {
-            return new String[0];
+            return lista; // lista vazia
         }
 
-        // *** AQUI ESTAVA O PROBLEMA ***
-        // Antes: "\\},\\s*\\{"
+        // divide no padrão "} , {", mas sem trabalhar com array de objetos do domínio
         String[] partes = arraySemColchetes.split("\\}\\s*,\\s*\\{");
 
-        for (int i = 0; i < partes.length; i++) {
-            String p = partes[i].trim();
+        for (String parte : partes) {
+            String p = parte.trim();
             if (!p.startsWith("{")) {
                 p = "{" + p;
             }
             if (!p.endsWith("}")) {
                 p = p + "}";
             }
-            partes[i] = p;
+            lista.add(p);
         }
-        return partes;
+        return lista;
     }
 
     // extrai um campo string do tipo "campo":"valor"
