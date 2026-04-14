@@ -1,4 +1,4 @@
-# ACMETech — Sistema de Vendas de Tecnologias
+# ACMETech - Sistema de Vendas de Tecnologias
 
 Trabalho Final da disciplina de Programação Orientada a Objetos (PUCRS), desenvolvido em grupo com Sofia e Paulo, sob orientação do professor Yamaguti.
 
